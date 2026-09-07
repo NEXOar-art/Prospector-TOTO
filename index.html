@@ -2,228 +2,339 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Dashboard Leads Chile | NEXO-ART E-commerce</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>Dashboard Leads San Miguel | NEXO-ART</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
   body {
     background: linear-gradient(135deg, #f0f4f8 0%, #e6f0fa 100%);
     color: #2c3e50;
     min-height: 100vh;
-    padding: 20px;
+    padding: 12px;
   }
   .header {
     background: linear-gradient(135deg, #00B4D8 0%, #0077B6 100%);
     color: white;
-    padding: 25px 30px;
+    padding: 20px;
     border-radius: 16px;
     box-shadow: 0 8px 24px rgba(0,119,182,0.25);
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 15px;
+    margin-bottom: 16px;
   }
-  .header h1 { font-size: 26px; font-weight: 700; }
-  .header .subtitle { font-size: 14px; opacity: 0.9; margin-top: 4px; }
+  .header h1 { font-size: 22px; font-weight: 700; margin-bottom: 8px; line-height: 1.3; }
+  .header .subtitle { font-size: 13px; opacity: 0.95; line-height: 1.6; }
   .header .date {
+    display: inline-block;
     background: rgba(255,255,255,0.2);
-    padding: 8px 16px;
+    padding: 6px 14px;
     border-radius: 20px;
-    font-size: 13px;
+    font-size: 12px;
+    margin-top: 10px;
     backdrop-filter: blur(10px);
   }
 
-  /* KPI Cards */
+  .exchange-rate-container {
+    background: linear-gradient(135deg, #FFD93D 0%, #FF9F1C 100%);
+    padding: 16px;
+    border-radius: 14px;
+    box-shadow: 0 6px 20px rgba(255,159,28,0.3);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    color: #2c3e50;
+  }
+  .exchange-rate-container .label-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .exchange-rate-container .icon { font-size: 24px; }
+  .exchange-rate-container .title { font-size: 14px; font-weight: 700; }
+  .exchange-rate-container .sub { font-size: 11px; opacity: 0.85; }
+  .exchange-rate-container input {
+    width: 110px;
+    padding: 8px 10px;
+    border: 3px solid white;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 800;
+    text-align: center;
+    background: white;
+    color: #2c3e50;
+    outline: none;
+    transition: all 0.2s;
+  }
+  .exchange-rate-container input:focus {
+    box-shadow: 0 0 0 3px rgba(255,255,255,0.5);
+    transform: scale(1.02);
+  }
+  .exchange-rate-container .currency-display {
+    background: rgba(255,255,255,0.3);
+    padding: 6px 12px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 12px;
+    backdrop-filter: blur(10px);
+  }
+
   .kpi-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 16px;
-    margin-bottom: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin-bottom: 16px;
   }
   .kpi-card {
     background: white;
-    padding: 20px;
+    padding: 16px;
     border-radius: 14px;
     box-shadow: 0 4px 16px rgba(0,0,0,0.06);
     border-left: 5px solid;
     transition: transform 0.2s;
   }
-  .kpi-card:hover { transform: translateY(-3px); }
+  .kpi-card:hover { transform: translateY(-2px); }
   .kpi-card.blue { border-color: #00B4D8; }
   .kpi-card.green { border-color: #06D6A0; }
   .kpi-card.orange { border-color: #FF9F1C; }
   .kpi-card.pink { border-color: #EF476F; }
   .kpi-card.purple { border-color: #9D4EDD; }
-  .kpi-label { font-size: 12px; color: #7f8c8d; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
-  .kpi-value { font-size: 28px; font-weight: 700; margin-top: 6px; color: #2c3e50; }
-  .kpi-sub { font-size: 12px; color: #95a5a6; margin-top: 4px; }
+  .kpi-card.red { border-color: #E63946; }
+  .kpi-label { font-size: 10px; color: #7f8c8d; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+  .kpi-value { font-size: 22px; font-weight: 700; margin-top: 4px; color: #2c3e50; }
+  .kpi-sub { font-size: 11px; color: #95a5a6; margin-top: 2px; }
 
-  /* Service Pricing Card */
-  .service-card {
+  .total-card {
+    background: linear-gradient(135deg, #E63946 0%, #9D4EDD 50%, #0077B6 100%);
+    color: white;
+    padding: 20px;
+    border-radius: 18px;
+    box-shadow: 0 10px 32px rgba(230,57,70,0.35);
+    margin-bottom: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  .total-card::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .total-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+    gap: 8px;
+    position: relative;
+    z-index: 2;
+  }
+  .total-card-header h2 {
+    font-size: 17px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    line-height: 1.3;
+  }
+  .total-card-header .badge {
+    background: rgba(255,255,255,0.25);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    backdrop-filter: blur(10px);
+    white-space: nowrap;
+  }
+  .total-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+    position: relative;
+    z-index: 2;
+  }
+  .total-item {
+    background: rgba(255,255,255,0.15);
+    padding: 14px;
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  .total-item .label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    opacity: 0.9;
+    margin-bottom: 4px;
+    font-weight: 600;
+  }
+  .total-item .value {
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 1.1;
+    word-break: break-word;
+  }
+  .total-item .detail {
+    font-size: 10px;
+    opacity: 0.85;
+    margin-top: 3px;
+  }
+  .total-item.highlight {
+    background: rgba(255,255,255,0.95);
+    color: #2c3e50;
+    border: 2px solid #FFD93D;
+  }
+  .total-item.highlight .value {
+    color: #E63946;
+    font-size: 22px;
+  }
+  .total-item.highlight .label { color: #7f8c8d; }
+
+  .info-card {
     background: linear-gradient(135deg, #06D6A0 0%, #00B4D8 100%);
     color: white;
-    padding: 22px;
+    padding: 18px;
     border-radius: 14px;
     box-shadow: 0 8px 24px rgba(6,214,160,0.25);
-    margin-bottom: 20px;
+    margin-bottom: 16px;
   }
-  .service-card h3 { font-size: 18px; margin-bottom: 12px; }
-  .service-items { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
-  .service-item {
+  .info-card h3 { font-size: 16px; margin-bottom: 12px; }
+  .benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .benefit-item {
+    background: rgba(255,255,255,0.2);
+    padding: 10px 12px;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    font-size: 12px;
+    line-height: 1.5;
+  }
+  .benefit-item strong { display: block; margin-bottom: 3px; font-size: 13px; }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+    margin-top: 12px;
+  }
+  .plan-card {
     background: rgba(255,255,255,0.2);
     padding: 12px;
     border-radius: 10px;
     backdrop-filter: blur(10px);
   }
-  .service-item .label { font-size: 12px; opacity: 0.9; }
-  .service-item .price { font-size: 20px; font-weight: 700; margin-top: 4px; }
-  .service-total {
-    margin-top: 14px;
-    padding-top: 14px;
-    border-top: 2px dashed rgba(255,255,255,0.4);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  .plan-card.popular {
+    background: rgba(255,255,255,0.35);
+    border: 2px solid #FFD93D;
+    position: relative;
   }
-  .service-total .total-price { font-size: 28px; font-weight: 800; }
-
-  /* Filters */
-  .filters-container {
-    background: white;
-    padding: 20px;
-    border-radius: 14px;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
-    margin-bottom: 20px;
-  }
-  .filters-title {
-    font-size: 15px;
+  .plan-card.popular::before {
+    content: "⭐ MÁS VENDIDO";
+    position: absolute;
+    top: -10px;
+    right: 10px;
+    background: #FFD93D;
+    color: #2c3e50;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 10px;
     font-weight: 700;
-    color: #0077B6;
-    margin-bottom: 14px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
   }
-  .filters-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  .plan-name { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+  .plan-price { font-size: 20px; font-weight: 800; margin-bottom: 3px; }
+  .plan-maintenance {
+    display: inline-block;
+    background: rgba(255,255,255,0.3);
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 10px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .plan-desc { font-size: 11px; opacity: 0.95; line-height: 1.5; }
+  .addon {
+    margin-top: 10px;
+    padding: 10px 12px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 10px;
+    font-size: 12px;
+  }
+  .payment-methods {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 2px dashed rgba(255,255,255,0.4);
+    font-size: 12px;
+    display: flex;
     gap: 12px;
-  }
-  .filter-group label {
-    display: block;
-    font-size: 11px;
-    color: #7f8c8d;
-    text-transform: uppercase;
-    font-weight: 600;
-    margin-bottom: 4px;
-  }
-  .filter-group input, .filter-group select {
-    width: 100%;
-    padding: 8px 12px;
-    border: 2px solid #e0e6ed;
-    border-radius: 8px;
-    font-size: 13px;
-    transition: all 0.2s;
-    background: #f8fafc;
-  }
-  .filter-group input:focus, .filter-group select:focus {
-    outline: none;
-    border-color: #00B4D8;
-    background: white;
-  }
-  .btn-reset {
-    background: #EF476F;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 13px;
-    margin-top: 22px;
-    transition: all 0.2s;
-  }
-  .btn-reset:hover { background: #d63a5e; transform: translateY(-2px); }
-
-  /* Tabs */
-  .tabs {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 16px;
     flex-wrap: wrap;
   }
-  .tab {
-    background: white;
-    border: 2px solid #e0e6ed;
-    padding: 10px 20px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 13px;
-    transition: all 0.2s;
-    color: #7f8c8d;
-  }
-  .tab:hover { border-color: #00B4D8; color: #00B4D8; }
-  .tab.active {
-    background: linear-gradient(135deg, #00B4D8 0%, #0077B6 100%);
-    color: white;
-    border-color: transparent;
-  }
 
-  /* Tables */
   .table-container {
     background: white;
     border-radius: 14px;
     box-shadow: 0 4px 16px rgba(0,0,0,0.06);
     overflow: hidden;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
   }
   .table-header {
-    padding: 16px 20px;
+    padding: 14px 16px;
     background: #f8fafc;
     border-bottom: 2px solid #e0e6ed;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
   }
-  .table-header h3 { font-size: 16px; color: #2c3e50; }
+  .table-header h3 { font-size: 14px; color: #2c3e50; }
   .table-count {
     background: #00B4D8;
     color: white;
     padding: 4px 12px;
     border-radius: 20px;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 600;
+    white-space: nowrap;
   }
-  .table-wrapper { overflow-x: auto; max-height: 600px; overflow-y: auto; }
-  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 750px; }
   thead {
     background: linear-gradient(135deg, #0077B6 0%, #00B4D8 100%);
     color: white;
-    position: sticky;
-    top: 0;
-    z-index: 10;
   }
   th {
-    padding: 12px 10px;
-    text-align: left;
+    padding: 10px 8px;
+    text-align: center;
     font-weight: 600;
-    font-size: 12px;
+    font-size: 10px;
     text-transform: uppercase;
     letter-spacing: 0.3px;
+    white-space: nowrap;
   }
+  th:nth-child(2) { text-align: left; }
   td {
-    padding: 10px;
+    padding: 10px 8px;
     border-bottom: 1px solid #f0f4f8;
     vertical-align: middle;
+    text-align: center;
   }
+  td:nth-child(2) { text-align: left; }
   tbody tr { transition: background 0.15s; }
   tbody tr:hover { background: #f8fafc; }
-  tbody tr.potential { background: linear-gradient(90deg, rgba(6,214,160,0.1) 0%, rgba(6,214,160,0.02) 100%); }
+  tbody tr.potential { background: linear-gradient(90deg, rgba(6,214,160,0.12) 0%, rgba(6,214,160,0.02) 100%); }
   tbody tr.potential td:first-child { border-left: 4px solid #06D6A0; }
 
-  .checkbox-cell { width: 40px; text-align: center; }
+  .checkbox-cell { width: 36px; }
   .checkbox-cell input[type="checkbox"] {
     width: 18px; height: 18px;
     cursor: pointer;
@@ -233,41 +344,107 @@
   .wa-link {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
     background: #25D366;
     color: white;
-    padding: 6px 12px;
+    padding: 6px 10px;
     border-radius: 20px;
     text-decoration: none;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 600;
     transition: all 0.2s;
     white-space: nowrap;
   }
   .wa-link:hover { background: #128C7E; transform: scale(1.05); }
-  .wa-icon { width: 14px; height: 14px; }
+  .wa-icon { width: 14px; height: 14px; flex-shrink: 0; }
 
-  .rating-badge {
+  .city-badge {
     display: inline-block;
     padding: 4px 10px;
     border-radius: 12px;
     font-weight: 700;
-    font-size: 12px;
+    font-size: 11px;
+    white-space: nowrap;
   }
-  .rating-high { background: #d4f5e9; color: #06D6A0; }
-  .rating-mid { background: #fff4d6; color: #FF9F1C; }
-  .rating-low { background: #ffd6dc; color: #EF476F; }
+  .city-lujan { background: #e0f4ff; color: #0077B6; }
+  .city-pilar { background: #ffe0e9; color: #E63946; }
+  .city-escobar { background: #e6ffe0; color: #2d6a2e; }
+
+  .plan-btn {
+    background: white;
+    border: 2px solid #e0e6ed;
+    padding: 5px 8px;
+    border-radius: 14px;
+    cursor: pointer;
+    font-size: 10px;
+    font-weight: 600;
+    transition: all 0.2s;
+    color: #7f8c8d;
+    white-space: nowrap;
+  }
+  .plan-btn:hover { transform: scale(1.05); }
+  .plan-btn.basic.active {
+    background: #00B4D8;
+    color: white;
+    border-color: #00B4D8;
+  }
+  .plan-btn.advanced.active {
+    background: #FFD93D;
+    color: #2c3e50;
+    border-color: #FFD93D;
+  }
+  .plan-btn.premium.active {
+    background: linear-gradient(135deg, #9D4EDD 0%, #EF476F 100%);
+    color: white;
+    border-color: #9D4EDD;
+  }
+
+  .skill-btn {
+    background: white;
+    border: 2px solid #9D4EDD;
+    color: #9D4EDD;
+    padding: 5px 8px;
+    border-radius: 14px;
+    cursor: pointer;
+    font-size: 10px;
+    font-weight: 700;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .skill-btn:hover { transform: scale(1.05); }
+  .skill-btn.active {
+    background: linear-gradient(135deg, #9D4EDD 0%, #E63946 100%);
+    color: white;
+    border-color: #9D4EDD;
+  }
+
+  .price-display {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 11px;
+    background: #f0f4f8;
+    color: #7f8c8d;
+    min-width: 80px;
+    white-space: nowrap;
+  }
+  .price-display.basic { background: #e0f4ff; color: #0077B6; }
+  .price-display.advanced { background: #fff4d6; color: #d48806; }
+  .price-display.premium { background: #f0e6ff; color: #9D4EDD; }
+  .price-display.has-skill { box-shadow: 0 0 0 2px #E63946; }
 
   .potential-btn {
     background: transparent;
     border: 2px solid #06D6A0;
     color: #06D6A0;
-    padding: 5px 12px;
+    padding: 5px 10px;
     border-radius: 15px;
     cursor: pointer;
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 600;
     transition: all 0.2s;
+    white-space: nowrap;
   }
   .potential-btn.active {
     background: #06D6A0;
@@ -275,77 +452,104 @@
   }
   .potential-btn:hover { transform: scale(1.05); }
 
-  /* Matrix Analysis */
-  .matrix-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-    gap: 16px;
-    margin-bottom: 20px;
-  }
-  .matrix-card {
-    background: white;
-    border-radius: 14px;
-    padding: 20px;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
-  }
-  .matrix-card h4 {
-    font-size: 14px;
-    color: #0077B6;
-    margin-bottom: 14px;
-    padding-bottom: 10px;
-    border-bottom: 2px solid #f0f4f8;
-  }
-  .matrix-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-  .matrix-table th {
-    background: #f0f4f8;
-    color: #0077B6;
-    padding: 8px;
+  .scroll-hint {
+    display: none;
     text-align: center;
-    font-size: 11px;
-  }
-  .matrix-table td {
     padding: 8px;
-    text-align: center;
-    border: 1px solid #f0f4f8;
-  }
-  .matrix-table td:first-child { text-align: left; font-weight: 600; background: #f8fafc; }
-  .cell-hot { background: #06D6A0; color: white; font-weight: 700; }
-  .cell-warm { background: #FFD93D; color: #2c3e50; font-weight: 600; }
-  .cell-cold { background: #f0f4f8; color: #7f8c8d; }
-
-  .bar-chart { display: flex; flex-direction: column; gap: 8px; }
-  .bar-row { display: flex; align-items: center; gap: 10px; font-size: 12px; }
-  .bar-label { width: 120px; font-weight: 600; color: #2c3e50; }
-  .bar-track { flex: 1; height: 24px; background: #f0f4f8; border-radius: 12px; overflow: hidden; position: relative; }
-  .bar-fill {
-    height: 100%;
-    background: linear-gradient(90deg, #00B4D8 0%, #06D6A0 100%);
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    padding-left: 10px;
-    color: white;
-    font-weight: 700;
     font-size: 11px;
-    transition: width 0.5s ease;
+    color: #95a5a6;
+    background: #f8fafc;
+    border-bottom: 1px solid #e0e6ed;
   }
 
   .hidden { display: none; }
 
+  @media (max-width: 1024px) {
+    .total-grid { grid-template-columns: repeat(2, 1fr); }
+  }
   @media (max-width: 768px) {
-    .header h1 { font-size: 20px; }
-    .kpi-value { font-size: 22px; }
+    body { padding: 8px; }
+    .header { padding: 16px; }
+    .header h1 { font-size: 18px; }
+    .header .subtitle { font-size: 12px; }
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .kpi-card { padding: 12px; }
+    .kpi-value { font-size: 18px; }
+    .kpi-label { font-size: 9px; }
+    .total-card { padding: 16px; }
+    .total-card-header h2 { font-size: 15px; }
+    .total-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .total-item { padding: 10px; }
+    .total-item .value { font-size: 16px; }
+    .total-item.highlight .value { font-size: 18px; }
+    .benefits-grid { grid-template-columns: 1fr; }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .scroll-hint { display: block; }
+    .exchange-rate-container {
+      flex-direction: column;
+      align-items: stretch;
+      text-align: center;
+    }
+    .exchange-rate-container .label-group { justify-content: center; }
+    .info-card { padding: 14px; }
+  }
+  @media (max-width: 480px) {
+    body { padding: 6px; }
+    .header h1 { font-size: 16px; }
+    .header .subtitle { font-size: 11px; }
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); gap: 6px; }
+    .kpi-card { padding: 10px; border-left-width: 3px; }
+    .kpi-value { font-size: 16px; }
+    .kpi-sub { font-size: 10px; }
+    .total-card { padding: 14px; border-radius: 14px; }
+    .total-card-header h2 { font-size: 13px; }
+    .total-grid { grid-template-columns: 1fr 1fr; gap: 6px; }
+    .total-item .value { font-size: 14px; }
+    .total-item .label { font-size: 9px; }
+    .total-item.highlight .value { font-size: 16px; }
+    .exchange-rate-container input { width: 90px; font-size: 14px; }
+    .table-header h3 { font-size: 12px; }
+    table { min-width: 680px; font-size: 11px; }
+    th { font-size: 9px; padding: 8px 5px; }
+    td { padding: 8px 5px; }
+    .wa-link { padding: 5px 8px; font-size: 10px; }
+    .plan-btn { padding: 4px 6px; font-size: 9px; }
+    .skill-btn { padding: 4px 6px; font-size: 9px; }
+    .potential-btn { padding: 4px 8px; font-size: 9px; }
+    .price-display { font-size: 10px; padding: 3px 8px; min-width: 70px; }
+    .city-badge { font-size: 10px; padding: 3px 8px; }
+  }
+  @media (max-width: 360px) {
+    .kpi-grid { grid-template-columns: 1fr 1fr; }
+    .total-grid { grid-template-columns: 1fr; }
+    .kpi-value { font-size: 15px; }
   }
 </style>
 </head>
 <body>
 
 <div class="header">
-  <div>
-    <h1>🇱 Dashboard Leads Chile | NEXO-ART</h1>
-    <div class="subtitle">Prospección E-commerce - Restaurantes & Repuestos (500 Leads)</div>
+  <h1>🇦🇷 Dashboard Leads San Miguel | NEXO-ART</h1>
+  <div class="subtitle">
+    <strong>NEXO‑ART</strong> es una agencia digital especializada en crear páginas web y soluciones de e‑commerce diseñadas para aumentar ventas y optimizar la atención al cliente. Transformamos la presencia online de casas de repuestos de motos y automotrices, comercios y empresas, convirtiendo visitantes en clientes reales.
   </div>
-  <div class="date"> Martes, 01 Septiembre 2026</div>
+  <div class="date">📅 Lunes, 07 Septiembre 2026</div>
+</div>
+
+<!-- Exchange Rate Input -->
+<div class="exchange-rate-container">
+  <div class="label-group">
+    <div class="icon">💱</div>
+    <div>
+      <div class="title">Tipo de Cambio Dólar/Peso del Día</div>
+      <div class="sub">Actualizá el valor para calcular totales en ARS</div>
+    </div>
+  </div>
+  <div class="label-group">
+    <div class="currency-display">1 USD =</div>
+    <input type="number" id="exchangeRate" value="1500" min="1" step="0.01" oninput="updateKPIs()">
+    <div class="currency-display">ARS</div>
+  </div>
 </div>
 
 <!-- KPI Cards -->
@@ -353,7 +557,7 @@
   <div class="kpi-card blue">
     <div class="kpi-label">Total Leads</div>
     <div class="kpi-value" id="kpiTotalLeads">0</div>
-    <div class="kpi-sub">Restaurantes + Repuestos</div>
+    <div class="kpi-sub">San Miguel</div>
   </div>
   <div class="kpi-card green">
     <div class="kpi-label">Potenciales Clientes</div>
@@ -363,1064 +567,291 @@
   <div class="kpi-card orange">
     <div class="kpi-label">Ingresos Potenciales</div>
     <div class="kpi-value" id="kpiIngresos">$0</div>
-    <div class="kpi-sub">USD por servicios</div>
+    <div class="kpi-sub">ARS por servicios</div>
   </div>
   <div class="kpi-card pink">
-    <div class="kpi-label">Leads Filtrados</div>
-    <div class="kpi-value" id="kpiFiltrados">0</div>
-    <div class="kpi-sub">Según filtros activos</div>
-  </div>
-  <div class="kpi-card purple">
     <div class="kpi-label">Conversión</div>
     <div class="kpi-value" id="kpiConversion">0%</div>
     <div class="kpi-sub">Potenciales / Total</div>
   </div>
-</div>
-
-<!-- Service Pricing -->
-<div class="service-card">
-  <h3>💼 Paquete de Servicios E-commerce NEXO-ART</h3>
-  <div class="service-items">
-    <div class="service-item">
-      <div class="label">🛒 E-commerce Base</div>
-      <div class="price">$290 USD</div>
-    </div>
-    <div class="service-item">
-      <div class="label">📊 Skill Dashboard (Opcional)</div>
-      <div class="price">+ $30 USD</div>
-    </div>
-    <div class="service-item">
-      <div class="label">🔧 Mantenimiento Mensual</div>
-      <div class="price">+ $40 USD</div>
-    </div>
+  <div class="kpi-card purple">
+    <div class="kpi-label">Mantenimiento Mensual</div>
+    <div class="kpi-value" id="kpiMantenimiento">$0</div>
+    <div class="kpi-sub">USD recurrente</div>
   </div>
-  <div class="service-total">
-    <div>💰 Paquete Completo por Cliente:</div>
-    <div class="total-price">$360 USD</div>
+  <div class="kpi-card red">
+    <div class="kpi-label">Skills Activados</div>
+    <div class="kpi-value" id="kpiSkills">$0</div>
+    <div class="kpi-sub">USD por dashboards</div>
   </div>
 </div>
 
-<!-- Filters -->
-<div class="filters-container">
-  <div class="filters-title">🔍 Filtros Inteligentes</div>
-  <div class="filters-grid">
-    <div class="filter-group">
-      <label>📝 Nombre del Negocio</label>
-      <input type="text" id="filterNombre" placeholder="Buscar...">
+<!-- TOTAL CARD -->
+<div class="total-card">
+  <div class="total-card-header">
+    <h2>💎 TOTAL GENERAL (Plan + Skill + Mantenimiento)</h2>
+    <div class="badge">📊 Tiempo real</div>
+  </div>
+  <div class="total-grid">
+    <div class="total-item">
+      <div class="label">💵 Total en USD</div>
+      <div class="value" id="totalUSD">$0</div>
+      <div class="detail">Skill + Mantenimiento</div>
     </div>
-    <div class="filter-group">
-      <label>🏙️ Ciudad / Zona</label>
-      <select id="filterCiudad"><option value="">Todas</option></select>
+    <div class="total-item">
+      <div class="label">💰 Total Único (ARS)</div>
+      <div class="value" id="totalUnicoARS">$0</div>
+      <div class="detail">Planes + Skills convertidos</div>
     </div>
-    <div class="filter-group">
-      <label>🏷️ Tipo</label>
-      <select id="filterTipo"><option value="">Todos</option></select>
+    <div class="total-item">
+      <div class="label">🔄 Total Mensual (ARS)</div>
+      <div class="value" id="totalMensualARS">$0</div>
+      <div class="detail">Mantenimiento recurrente</div>
     </div>
-    <div class="filter-group">
-      <label>⭐ Calificación Mínima</label>
-      <select id="filterCalificacion">
-        <option value="">Todas</option>
-        <option value="4.5">4.5+ (Excelente)</option>
-        <option value="4.0">4.0+ (Muy Bueno)</option>
-        <option value="3.5">3.5+ (Bueno)</option>
-        <option value="3.0">3.0+ (Regular)</option>
-      </select>
-    </div>
-    <div class="filter-group">
-      <label>💬 Reseñas Mínimas</label>
-      <select id="filterResenas">
-        <option value="">Todas</option>
-        <option value="500">500+ (Alta tracción)</option>
-        <option value="100">100+ (Establecido)</option>
-        <option value="50">50+ (En crecimiento)</option>
-        <option value="10">10+ (Nuevo)</option>
-      </select>
-    </div>
-    <div class="filter-group">
-      <label>🎯 Solo Potenciales</label>
-      <select id="filterPotencial">
-        <option value="">Todos</option>
-        <option value="si">Solo Potenciales ✓</option>
-        <option value="no">No Potenciales</option>
-      </select>
-    </div>
-    <div class="filter-group">
-      <button class="btn-reset" onclick="resetFilters()">🔄 Limpiar Filtros</button>
+    <div class="total-item highlight">
+      <div class="label">🏆 TOTAL 1er MES (ARS)</div>
+      <div class="value" id="totalPrimerMesARS">$0</div>
+      <div class="detail">Único + Mensual del 1er mes</div>
     </div>
   </div>
 </div>
 
-<!-- Tabs -->
-<div class="tabs">
-  <div class="tab active" onclick="switchTab('restaurantes', this)">🍽️ Restaurantes</div>
-  <div class="tab" onclick="switchTab('repuestos', this)"> Repuestos Motos y Autos</div>
-  <div class="tab" onclick="switchTab('matriz', this)">📊 Análisis Matriz</div>
-</div>
+<!-- Info Card -->
+<div class="info-card">
+  <h3>🎯 Beneficios Clave para el Negocio</h3>
+  <div class="benefits-grid">
+    <div class="benefit-item">
+      <strong>🛒 Pedidos y reservas online</strong>
+      Los clientes pueden comprar o reservar directamente desde la web, con integración automática a WhatsApp del negocio. Los comensales pueden pedir desde la mesa utilizando un código QR al menú del e-commerce.
+    </div>
+    <div class="benefit-item">
+      <strong>📍 Optimización Google Maps</strong>
+      Mayor visibilidad y confianza en Google Maps y Business Profile para atraer nuevos clientes a tu zona.
+    </div>
+    <div class="benefit-item">
+      <strong>⚙️ Automatización y orden</strong>
+      Menos mensajes repetitivos, más tiempo para atender y crecer. El sistema trabaja por vos 24/7.
+    </div>
+    <div class="benefit-item">
+      <strong>📱 Diseño responsive y profesional</strong>
+      Sitios que se adaptan perfectamente a cualquier dispositivo (celular, tablet, PC).
+    </div>
+  </div>
 
-<!-- Tab Restaurantes -->
-<div id="tab-restaurantes" class="tab-content">
-  <div class="table-container">
-    <div class="table-header">
-      <h3>🍽️ Leads de Restaurantes</h3>
-      <span class="table-count" id="countRestaurantes">0 negocios</span>
+  <h3 style="margin-top: 14px;">💰 Planes en Argentina (Precios Actualizados)</h3>
+  <div class="pricing-grid">
+    <div class="plan-card">
+      <div class="plan-name">🥉 Básico</div>
+      <div class="plan-price">$98.000 ARS</div>
+      <div class="plan-maintenance">+ $0/mes mantenimiento</div>
+      <div class="plan-desc">Landing page estática, diseño premium responsive, formulario de captura de leads.</div>
     </div>
-    <div class="table-wrapper">
-      <table>
-        <thead>
-          <tr>
-            <th class="checkbox-cell">✓</th>
-            <th>Negocio</th>
-            <th>Ciudad / Zona</th>
-            <th>📞 WhatsApp</th>
-            <th>💬 Reseñas</th>
-            <th>⭐ Calificación</th>
-            <th>🎯 Potencial</th>
-          </tr>
-        </thead>
-        <tbody id="tbodyRestaurantes"></tbody>
-      </table>
+    <div class="plan-card popular">
+      <div class="plan-name">🥈 Avanzado</div>
+      <div class="plan-price">$160.000 ARS</div>
+      <div class="plan-maintenance">+ $30 USD/mes mantenimiento</div>
+      <div class="plan-desc">Incluye todo lo del Básico + animaciones premium, CRM automático, mantenimiento mensual.</div>
     </div>
+    <div class="plan-card">
+      <div class="plan-name">🥇 Premium</div>
+      <div class="plan-price">$430.000 ARS</div>
+      <div class="plan-maintenance">+ $60 USD/mes mantenimiento</div>
+      <div class="plan-desc">Web completa full custom, e‑commerce integrado, SEO técnico avanzado, mantenimiento mensual.</div>
+    </div>
+  </div>
+  <div class="addon">
+    📊 <strong>Skill Tablero de Control específico para restaurantes:</strong> + 40 USD por única vez (Opcional) — Se suma al plan elegido.
+  </div>
+  <div class="payment-methods">
+    <div>💳 <strong>Métodos de Pago:</strong></div>
+    <div>🟣 Mercado Pago</div>
+    <div>🏦 Transferencia bancaria</div>
   </div>
 </div>
 
-<!-- Tab Repuestos -->
-<div id="tab-repuestos" class="tab-content hidden">
-  <div class="table-container">
-    <div class="table-header">
-      <h3>🔧 Leads de Repuestos (Motos y Autos)</h3>
-      <span class="table-count" id="countRepuestos">0 negocios</span>
-    </div>
-    <div class="table-wrapper">
-      <table>
-        <thead>
-          <tr>
-            <th class="checkbox-cell">✓</th>
-            <th>Negocio</th>
-            <th>Ciudad / Zona</th>
-            <th>Tipo</th>
-            <th>📞 WhatsApp</th>
-            <th>💬 Reseñas</th>
-            <th>⭐ Calificación</th>
-            <th>🎯 Potencial</th>
-          </tr>
-        </thead>
-        <tbody id="tbodyRepuestos"></tbody>
-      </table>
-    </div>
+<!-- Table of Leads -->
+<div class="table-container">
+  <div class="table-header">
+    <h3>🔧 Leads de Casas de Repuestos - San Miguel</h3>
+    <span class="table-count" id="countLeads">0 negocios</span>
   </div>
-</div>
-
-<!-- Tab Matriz -->
-<div id="tab-matriz" class="tab-content hidden">
-  <div class="matrix-grid">
-    <div class="matrix-card">
-      <h4>🗺️ Matriz Ciudad × Tipo de Negocio</h4>
-      <table class="matrix-table" id="matrixCiudadTipo"></table>
-    </div>
-    <div class="matrix-card">
-      <h4>⭐ Matriz Ciudad × Rango de Calificación</h4>
-      <table class="matrix-table" id="matrixCiudadRating"></table>
-    </div>
-    <div class="matrix-card">
-      <h4>💬 Matriz Ciudad × Rango de Reseñas</h4>
-      <table class="matrix-table" id="matrixCiudadResenas"></table>
-    </div>
-    <div class="matrix-card">
-      <h4>🏆 Top 10 Ciudades por Cantidad de Leads</h4>
-      <div class="bar-chart" id="topCiudades"></div>
-    </div>
-    <div class="matrix-card">
-      <h4> Ingresos Potenciales por Ciudad</h4>
-      <div class="bar-chart" id="ingresosCiudad"></div>
-    </div>
-    <div class="matrix-card">
-      <h4>📈 Distribución por Tipo de Negocio</h4>
-      <div class="bar-chart" id="distTipo"></div>
-    </div>
+  <div class="scroll-hint">👉 Deslizá horizontalmente para ver todas las columnas</div>
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th class="checkbox-cell">✓</th>
+          <th style="text-align:left">Ciudad</th>
+          <th>📞 WhatsApp</th>
+          <th>🥉 Básico</th>
+          <th>⭐ Avanzado</th>
+          <th>🥇 Premium</th>
+          <th>📊 Skill Tablero de Control (Opcional)</th>
+          <th>💰 Precio Total</th>
+          <th>🎯 Potencial</th>
+        </tr>
+      </thead>
+      <tbody id="tbodyLeads"></tbody>
+    </table>
   </div>
 </div>
 
 <script>
-// ==================== DATOS DE CHILE (500 LEADS) ====================
-const restaurantes = [
-  // Santiago (60 restaurantes)
-  {nombre:"Bocanáriz", ciudad:"Santiago - Las Condes", telefono:"+56 9 9123 4567", resenas:1250, rating:4.6},
-  {nombre:"Astrid y Gastón", ciudad:"Santiago - Vitacura", telefono:"+56 9 9234 5678", resenas:980, rating:4.7},
-  {nombre:"Osaka", ciudad:"Santiago - Las Condes", telefono:"+56 9 9345 6789", resenas:870, rating:4.5},
-  {nombre:"Mestizo", ciudad:"Santiago - Providencia", telefono:"+56 9 9456 7890", resenas:760, rating:4.4},
-  {nombre:"Liguria", ciudad:"Santiago - Providencia", telefono:"+56 9 9567 8901", resenas:690, rating:4.3},
-  {nombre:"Fuente Mardoqueo", ciudad:"Santiago - Centro", telefono:"+56 9 9678 9012", resenas:620, rating:4.5},
-  {nombre:"Galindo", ciudad:"Santiago - Las Condes", telefono:"+56 9 9789 0123", resenas:580, rating:4.6},
-  {nombre:"Peumayen Ancestral Food", ciudad:"Santiago - Vitacura", telefono:"+56 9 9890 1234", resenas:540, rating:4.7},
-  {nombre:"Azul Profundo", ciudad:"Santiago - Providencia", telefono:"+56 9 9901 2345", resenas:510, rating:4.4},
-  {nombre:"Boragó", ciudad:"Santiago - Vitacura", telefono:"+56 9 9012 3456", resenas:480, rating:4.8},
-  {nombre:"Sarrillo", ciudad:"Santiago - Las Condes", telefono:"+56 9 9123 4568", resenas:450, rating:4.5},
-  {nombre:"Raja", ciudad:"Santiago - Providencia", telefono:"+56 9 9234 5679", resenas:420, rating:4.6},
-  {nombre:"9 Gatos", ciudad:"Santiago - Las Condes", telefono:"+56 9 9345 6780", resenas:390, rating:4.3},
-  {nombre:"Kres", ciudad:"Santiago - Vitacura", telefono:"+56 9 9456 7891", resenas:360, rating:4.4},
-  {nombre:"La Mar", ciudad:"Santiago - Las Condes", telefono:"+56 9 9567 8902", resenas:330, rating:4.5},
-  {nombre:"Tegui", ciudad:"Santiago - Vitacura", telefono:"+56 9 9678 9013", resenas:300, rating:4.7},
-  {nombre:"Ambrosía", ciudad:"Santiago - Providencia", telefono:"+56 9 9789 0124", resenas:270, rating:4.4},
-  {nombre:"Fuego", ciudad:"Santiago - Las Condes", telefono:"+56 9 9890 1235", resenas:240, rating:4.6},
-  {nombre:"Isidora", ciudad:"Santiago - Providencia", telefono:"+56 9 9901 2346", resenas:210, rating:4.3},
-  {nombre:"El Hoyo", ciudad:"Santiago - Centro", telefono:"+56 9 9012 3457", resenas:180, rating:4.2},
-  {nombre:"Donde Augusto", ciudad:"Santiago - Las Condes", telefono:"+56 9 9123 4569", resenas:150, rating:4.5},
-  {nombre:"Bam Bam", ciudad:"Santiago - Providencia", telefono:"+56 9 9234 5680", resenas:120, rating:4.4},
-  {nombre:"Wok", ciudad:"Santiago - Las Condes", telefono:"+56 9 9345 6781", resenas:100, rating:4.3},
-  {nombre:"El Huerto", ciudad:"Santiago - Vitacura", telefono:"+56 9 9456 7892", resenas:90, rating:4.6},
-  {nombre:"Pardo", ciudad:"Santiago - Providencia", telefono:"+56 9 9567 8903", resenas:80, rating:4.2},
-  {nombre:"Rapa Nui", ciudad:"Santiago - Las Condes", telefono:"+56 9 9678 9014", resenas:70, rating:4.5},
-  {nombre:"Sazón", ciudad:"Santiago - Centro", telefono:"+56 9 9789 0125", resenas:60, rating:4.3},
-  {nombre:"La Piojera", ciudad:"Santiago - Centro", telefono:"+56 9 9890 1236", resenas:50, rating:4.1},
-  {nombre:"Fuente Alemana", ciudad:"Santiago - Centro", telefono:"+56 9 9901 2347", resenas:40, rating:4.4},
-  {nombre:"El Principal", ciudad:"Santiago - Vitacura", telefono:"+56 9 9012 3458", resenas:30, rating:4.7},
-  {nombre:"Café del Cerro", ciudad:"Santiago - Bellavista", telefono:"+56 9 9123 4570", resenas:20, rating:4.2},
-  {nombre:"Tolón", ciudad:"Santiago - Las Condes", telefono:"+56 9 9234 5681", resenas:15, rating:4.5},
-  {nombre:"Matsuri", ciudad:"Santiago - Vitacura", telefono:"+56 9 9345 6782", resenas:10, rating:4.6},
-  {nombre:"Cádiz", ciudad:"Santiago - Providencia", telefono:"+56 9 9456 7893", resenas:8, rating:4.3},
-  {nombre:"Rinconada", ciudad:"Santiago - Las Condes", telefono:"+56 9 9567 8904", resenas:5, rating:4.4},
-  {nombre:"La Mar", ciudad:"Santiago - Las Condes", telefono:"+56 9 9678 9015", resenas:3, rating:4.5},
-  {nombre:"Bocanariz", ciudad:"Santiago - Vitacura", telefono:"+56 9 9789 0126", resenas:2, rating:4.6},
-  {nombre:"Café Central", ciudad:"Santiago - Centro", telefono:"+56 9 9890 1237", resenas:1, rating:4.2},
-  {nombre:"El Lingote", ciudad:"Santiago - Providencia", telefono:"+56 9 9901 2348", resenas:1, rating:4.4},
-  {nombre:"Sabor Latino", ciudad:"Santiago - Las Condes", telefono:"+56 9 9012 3459", resenas:1, rating:4.3},
-  {nombre:"Parrilla Central", ciudad:"Santiago - Centro", telefono:"+56 9 9123 4571", resenas:1, rating:4.2},
-  {nombre:"Café Tortoni", ciudad:"Santiago - Providencia", telefono:"+56 9 9234 5682", resenas:1, rating:4.5},
-  {nombre:"La Estancia", ciudad:"Santiago - Vitacura", telefono:"+56 9 9345 6783", resenas:1, rating:4.6},
-  {nombre:"El Rincón", ciudad:"Santiago - Las Condes", telefono:"+56 9 9456 7894", resenas:1, rating:4.3},
-  {nombre:"Sabor Chileno", ciudad:"Santiago - Centro", telefono:"+56 9 9567 8905", resenas:1, rating:4.4},
-  {nombre:"Café del Sur", ciudad:"Santiago - Providencia", telefono:"+56 9 9678 9016", resenas:1, rating:4.2},
-  {nombre:"La Parrilla", ciudad:"Santiago - Las Condes", telefono:"+56 9 9789 0127", resenas:1, rating:4.5},
-  {nombre:"El Fogón", ciudad:"Santiago - Vitacura", telefono:"+56 9 9890 1238", resenas:1, rating:4.6},
-  {nombre:"Café del Norte", ciudad:"Santiago - Centro", telefono:"+56 9 9901 2349", resenas:1, rating:4.3},
-  {nombre:"La Cocina", ciudad:"Santiago - Providencia", telefono:"+56 9 9012 3460", resenas:1, rating:4.4},
-  {nombre:"El Sabor", ciudad:"Santiago - Las Condes", telefono:"+56 9 9123 4572", resenas:1, rating:4.2},
-  {nombre:"Café del Este", ciudad:"Santiago - Vitacura", telefono:"+56 9 9234 5683", resenas:1, rating:4.5},
-  {nombre:"La Mesa", ciudad:"Santiago - Centro", telefono:"+56 9 9345 6784", resenas:1, rating:4.6},
-  {nombre:"El Gusto", ciudad:"Santiago - Providencia", telefono:"+56 9 9456 7895", resenas:1, rating:4.3},
-  {nombre:"Café del Oeste", ciudad:"Santiago - Las Condes", telefono:"+56 9 9567 8906", resenas:1, rating:4.4},
-  {nombre:"La Casa", ciudad:"Santiago - Vitacura", telefono:"+56 9 9678 9017", resenas:1, rating:4.2},
-  {nombre:"El Sazón", ciudad:"Santiago - Centro", telefono:"+56 9 9789 0128", resenas:1, rating:4.5},
-  {nombre:"Café del Mar", ciudad:"Santiago - Providencia", telefono:"+56 9 9890 1239", resenas:1, rating:4.6},
-  {nombre:"La Ruta", ciudad:"Santiago - Las Condes", telefono:"+56 9 9901 2350", resenas:1, rating:4.3},
-  {nombre:"El Camino", ciudad:"Santiago - Vitacura", telefono:"+56 9 9012 3461", resenas:1, rating:4.4},
-
-  // Valparaíso (40 restaurantes)
-  {nombre:"Fauna", ciudad:"Valparaíso", telefono:"+56 9 8123 4567", resenas:890, rating:4.7},
-  {nombre:"Café del Cerro", ciudad:"Valparaíso - Cerro Alegre", telefono:"+56 9 8234 5678", resenas:760, rating:4.6},
-  {nombre:"El Triángulo", ciudad:"Valparaíso", telefono:"+56 9 8345 6789", resenas:680, rating:4.5},
-  {nombre:"La Piedra Feliz", ciudad:"Valparaíso - Cerro Concepción", telefono:"+56 9 8456 7890", resenas:620, rating:4.8},
-  {nombre:"Café Vinilo", ciudad:"Valparaíso", telefono:"+56 9 8567 8901", resenas:580, rating:4.4},
-  {nombre:"El Mirador", ciudad:"Valparaíso - Cerro Alegre", telefono:"+56 9 8678 9012", resenas:540, rating:4.6},
-  {nombre:"La Cueva", ciudad:"Valparaíso", telefono:"+56 9 8789 0123", resenas:510, rating:4.5},
-  {nombre:"Café del Puerto", ciudad:"Valparaíso - Puerto", telefono:"+56 9 8890 1234", resenas:480, rating:4.3},
-  {nombre:"El Rincón del Poeta", ciudad:"Valparaíso - Cerro Concepción", telefono:"+56 9 8901 2345", resenas:450, rating:4.7},
-  {nombre:"La Cocina del Puerto", ciudad:"Valparaíso", telefono:"+56 9 8012 3456", resenas:420, rating:4.4},
-  {nombre:"Café Turístico", ciudad:"Valparaíso - Cerro Alegre", telefono:"+56 9 8123 4568", resenas:390, rating:4.5},
-  {nombre:"El Sabor Porteño", ciudad:"Valparaíso", telefono:"+56 9 8234 5679", resenas:360, rating:4.6},
-  {nombre:"La Mesa del Mar", ciudad:"Valparaíso - Puerto", telefono:"+56 9 8345 6780", resenas:330, rating:4.3},
-  {nombre:"Café del Arte", ciudad:"Valparaíso - Cerro Concepción", telefono:"+56 9 8456 7891", resenas:300, rating:4.7},
-  {nombre:"El Fogón del Cerro", ciudad:"Valparaíso", telefono:"+56 9 8567 8902", resenas:270, rating:4.4},
-  {nombre:"La Parrilla Porteña", ciudad:"Valparaíso - Cerro Alegre", telefono:"+56 9 8678 9013", resenas:240, rating:4.5},
-  {nombre:"Café del Sol", ciudad:"Valparaíso", telefono:"+56 9 8789 0124", resenas:210, rating:4.6},
-  {nombre:"El Gusto del Mar", ciudad:"Valparaíso - Puerto", telefono:"+56 9 8890 1235", resenas:180, rating:4.3},
-  {nombre:"La Casa del Cerro", ciudad:"Valparaíso - Cerro Concepción", telefono:"+56 9 8901 2346", resenas:150, rating:4.7},
-  {nombre:"Café del Tiempo", ciudad:"Valparaíso", telefono:"+56 9 8012 3457", resenas:120, rating:4.4},
-  {nombre:"El Sazón Porteño", ciudad:"Valparaíso - Cerro Alegre", telefono:"+56 9 8123 4569", resenas:100, rating:4.5},
-  {nombre:"La Ruta del Sabor", ciudad:"Valparaíso", telefono:"+56 9 8234 5680", resenas:90, rating:4.6},
-  {nombre:"Café del Viento", ciudad:"Valparaíso - Puerto", telefono:"+56 9 8345 6781", resenas:80, rating:4.3},
-  {nombre:"El Camino del Cerro", ciudad:"Valparaíso - Cerro Concepción", telefono:"+56 9 8456 7892", resenas:70, rating:4.7},
-  {nombre:"La Cocina del Arte", ciudad:"Valparaíso", telefono:"+56 9 8567 8903", resenas:60, rating:4.4},
-  {nombre:"Café del Puerto", ciudad:"Valparaíso - Cerro Alegre", telefono:"+56 9 8678 9014", resenas:50, rating:4.5},
-  {nombre:"El Mirador del Mar", ciudad:"Valparaíso", telefono:"+56 9 8789 0125", resenas:40, rating:4.6},
-  {nombre:"La Piedra del Cerro", ciudad:"Valparaíso - Puerto", telefono:"+56 9 8890 1236", resenas:30, rating:4.3},
-  {nombre:"Café del Arte", ciudad:"Valparaíso - Cerro Concepción", telefono:"+56 9 8901 2347", resenas:20, rating:4.7},
-  {nombre:"El Rincón del Mar", ciudad:"Valparaíso", telefono:"+56 9 8012 3458", resenas:15, rating:4.4},
-  {nombre:"La Mesa del Cerro", ciudad:"Valparaíso - Cerro Alegre", telefono:"+56 9 8123 4570", resenas:10, rating:4.5},
-  {nombre:"Café del Tiempo", ciudad:"Valparaíso", telefono:"+56 9 8234 5681", resenas:8, rating:4.6},
-  {nombre:"El Sabor del Puerto", ciudad:"Valparaíso - Puerto", telefono:"+56 9 8345 6782", resenas:5, rating:4.3},
-  {nombre:"La Casa del Arte", ciudad:"Valparaíso - Cerro Concepción", telefono:"+56 9 8456 7893", resenas:3, rating:4.7},
-  {nombre:"Café del Viento", ciudad:"Valparaíso", telefono:"+56 9 8567 8904", resenas:2, rating:4.4},
-  {nombre:"El Fogón del Mar", ciudad:"Valparaíso - Cerro Alegre", telefono:"+56 9 8678 9015", resenas:1, rating:4.5},
-  {nombre:"La Parrilla del Cerro", ciudad:"Valparaíso", telefono:"+56 9 8789 0126", resenas:1, rating:4.6},
-  {nombre:"Café del Sol", ciudad:"Valparaíso - Puerto", telefono:"+56 9 8890 1237", resenas:1, rating:4.3},
-  {nombre:"El Gusto del Cerro", ciudad:"Valparaíso - Cerro Concepción", telefono:"+56 9 8901 2348", resenas:1, rating:4.7},
-  {nombre:"La Ruta del Puerto", ciudad:"Valparaíso", telefono:"+56 9 8012 3459", resenas:1, rating:4.4},
-
-  // Viña del Mar (30 restaurantes)
-  {nombre:"Bocanariz Viña", ciudad:"Viña del Mar", telefono:"+56 9 7123 4567", resenas:720, rating:4.6},
-  {nombre:"El Mirador del Mar", ciudad:"Viña del Mar - Reñaca", telefono:"+56 9 7234 5678", resenas:650, rating:4.7},
-  {nombre:"La Cocina del Mar", ciudad:"Viña del Mar", telefono:"+56 9 7345 6789", resenas:590, rating:4.5},
-  {nombre:"Café del Mar", ciudad:"Viña del Mar - Centro", telefono:"+56 9 7456 7890", resenas:540, rating:4.4},
-  {nombre:"El Sabor del Pacífico", ciudad:"Viña del Mar", telefono:"+56 9 7567 8901", resenas:510, rating:4.6},
-  {nombre:"La Parrilla Viñamarina", ciudad:"Viña del Mar - Reñaca", telefono:"+56 9 7678 9012", resenas:480, rating:4.5},
-  {nombre:"Café del Sol", ciudad:"Viña del Mar", telefono:"+56 9 7789 0123", resenas:450, rating:4.3},
-  {nombre:"El Rincón del Mar", ciudad:"Viña del Mar - Centro", telefono:"+56 9 7890 1234", resenas:420, rating:4.7},
-  {nombre:"La Mesa del Pacífico", ciudad:"Viña del Mar", telefono:"+56 9 7901 2345", resenas:390, rating:4.4},
-  {nombre:"Café del Viento", ciudad:"Viña del Mar - Reñaca", telefono:"+56 9 7012 3456", resenas:360, rating:4.6},
-  {nombre:"El Fogón del Mar", ciudad:"Viña del Mar", telefono:"+56 9 7123 4568", resenas:330, rating:4.5},
-  {nombre:"La Casa del Sol", ciudad:"Viña del Mar - Centro", telefono:"+56 9 7234 5679", resenas:300, rating:4.3},
-  {nombre:"Café del Tiempo", ciudad:"Viña del Mar", telefono:"+56 9 7345 6780", resenas:270, rating:4.7},
-  {nombre:"El Sazón del Pacífico", ciudad:"Viña del Mar - Reñaca", telefono:"+56 9 7456 7891", resenas:240, rating:4.4},
-  {nombre:"La Ruta del Mar", ciudad:"Viña del Mar", telefono:"+56 9 7567 8902", resenas:210, rating:4.6},
-  {nombre:"Café del Arte", ciudad:"Viña del Mar - Centro", telefono:"+56 9 7678 9013", resenas:180, rating:4.5},
-  {nombre:"El Camino del Sol", ciudad:"Viña del Mar", telefono:"+56 9 7789 0124", resenas:150, rating:4.3},
-  {nombre:"La Cocina del Viento", ciudad:"Viña del Mar - Reñaca", telefono:"+56 9 7890 1235", resenas:120, rating:4.7},
-  {nombre:"Café del Puerto", ciudad:"Viña del Mar", telefono:"+56 9 7901 2346", resenas:100, rating:4.4},
-  {nombre:"El Gusto del Mar", ciudad:"Viña del Mar - Centro", telefono:"+56 9 7012 3457", resenas:90, rating:4.6},
-  {nombre:"La Piedra del Sol", ciudad:"Viña del Mar", telefono:"+56 9 7123 4569", resenas:80, rating:4.5},
-  {nombre:"Café del Cerro", ciudad:"Viña del Mar - Reñaca", telefono:"+56 9 7234 5680", resenas:70, rating:4.3},
-  {nombre:"El Mirador del Sol", ciudad:"Viña del Mar", telefono:"+56 9 7345 6781", resenas:60, rating:4.7},
-  {nombre:"La Mesa del Viento", ciudad:"Viña del Mar - Centro", telefono:"+56 9 7456 7892", resenas:50, rating:4.4},
-  {nombre:"Café del Tiempo", ciudad:"Viña del Mar", telefono:"+56 9 7567 8903", resenas:40, rating:4.6},
-  {nombre:"El Sabor del Sol", ciudad:"Viña del Mar - Reñaca", telefono:"+56 9 7678 9014", resenas:30, rating:4.5},
-  {nombre:"La Casa del Viento", ciudad:"Viña del Mar", telefono:"+56 9 7789 0125", resenas:20, rating:4.3},
-  {nombre:"Café del Arte", ciudad:"Viña del Mar - Centro", telefono:"+56 9 7890 1236", resenas:15, rating:4.7},
-  {nombre:"El Rincón del Sol", ciudad:"Viña del Mar", telefono:"+56 9 7901 2347", resenas:10, rating:4.4},
-  {nombre:"La Parrilla del Mar", ciudad:"Viña del Mar - Reñaca", telefono:"+56 9 7012 3458", resenas:5, rating:4.6},
-
-  // Punta Arenas (25 restaurantes)
-  {nombre:"La Marmita", ciudad:"Punta Arenas", telefono:"+56 9 6123 4567", resenas:680, rating:4.7},
-  {nombre:"El Fogón Patagónico", ciudad:"Punta Arenas - Centro", telefono:"+56 9 6234 5678", resenas:620, rating:4.6},
-  {nombre:"Café del Estrecho", ciudad:"Punta Arenas", telefono:"+56 9 6345 6789", resenas:580, rating:4.5},
-  {nombre:"La Cocina del Sur", ciudad:"Punta Arenas", telefono:"+56 9 6456 7890", resenas:540, rating:4.8},
-  {nombre:"El Rincón del Cordero", ciudad:"Punta Arenas - Centro", telefono:"+56 9 6567 8901", resenas:510, rating:4.6},
-  {nombre:"Café Patagónico", ciudad:"Punta Arenas", telefono:"+56 9 6678 9012", resenas:480, rating:4.4},
-  {nombre:"La Parrilla del Sur", ciudad:"Punta Arenas", telefono:"+56 9 6789 0123", resenas:450, rating:4.7},
-  {nombre:"El Sabor Magallánico", ciudad:"Punta Arenas - Centro", telefono:"+56 9 6890 1234", resenas:420, rating:4.5},
-  {nombre:"Café del Fin del Mundo", ciudad:"Punta Arenas", telefono:"+56 9 6901 2345", resenas:390, rating:4.6},
-  {nombre:"La Mesa Patagónica", ciudad:"Punta Arenas", telefono:"+56 9 6012 3456", resenas:360, rating:4.3},
-  {nombre:"El Gusto del Sur", ciudad:"Punta Arenas - Centro", telefono:"+56 9 6123 4568", resenas:330, rating:4.7},
-  {nombre:"Café del Viento Sur", ciudad:"Punta Arenas", telefono:"+56 9 6234 5679", resenas:300, rating:4.4},
-  {nombre:"La Casa del Cordero", ciudad:"Punta Arenas", telefono:"+56 9 6345 6780", resenas:270, rating:4.6},
-  {nombre:"El Camino Patagónico", ciudad:"Punta Arenas - Centro", telefono:"+56 9 6456 7891", resenas:240, rating:4.5},
-  {nombre:"Café del Estrecho", ciudad:"Punta Arenas", telefono:"+56 9 6567 8902", resenas:210, rating:4.3},
-  {nombre:"La Ruta del Sur", ciudad:"Punta Arenas", telefono:"+56 9 6678 9013", resenas:180, rating:4.7},
-  {nombre:"El Sazón Magallánico", ciudad:"Punta Arenas - Centro", telefono:"+56 9 6789 0124", resenas:150, rating:4.4},
-  {nombre:"Café del Tiempo Sur", ciudad:"Punta Arenas", telefono:"+56 9 6890 1235", resenas:120, rating:4.6},
-  {nombre:"La Piedra Patagónica", ciudad:"Punta Arenas", telefono:"+56 9 6901 2346", resenas:100, rating:4.5},
-  {nombre:"El Mirador del Sur", ciudad:"Punta Arenas - Centro", telefono:"+56 9 6012 3457", resenas:90, rating:4.3},
-  {nombre:"Café del Arte Sur", ciudad:"Punta Arenas", telefono:"+56 9 6123 4569", resenas:80, rating:4.7},
-  {nombre:"La Cocina del Estrecho", ciudad:"Punta Arenas", telefono:"+56 9 6234 5680", resenas:70, rating:4.4},
-  {nombre:"El Fogón del Sur", ciudad:"Punta Arenas - Centro", telefono:"+56 9 6345 6781", resenas:60, rating:4.6},
-  {nombre:"Café del Fin del Mundo", ciudad:"Punta Arenas", telefono:"+56 9 6456 7892", resenas:50, rating:4.5},
-  {nombre:"La Parrilla Magallánica", ciudad:"Punta Arenas", telefono:"+56 9 6567 8903", resenas:40, rating:4.3},
-
-  // Puerto Montt (25 restaurantes)
-  {nombre:"El Mercado", ciudad:"Puerto Montt", telefono:"+56 9 5123 4567", resenas:650, rating:4.6},
-  {nombre:"Café del Lago", ciudad:"Puerto Montt - Centro", telefono:"+56 9 5234 5678", resenas:590, rating:4.5},
-  {nombre:"La Cocina del Sur", ciudad:"Puerto Montt", telefono:"+56 9 5345 6789", resenas:540, rating:4.7},
-  {nombre:"El Sabor del Canal", ciudad:"Puerto Montt", telefono:"+56 9 5456 7890", resenas:510, rating:4.4},
-  {nombre:"Café Llanquihue", ciudad:"Puerto Montt - Centro", telefono:"+56 9 5567 8901", resenas:480, rating:4.6},
-  {nombre:"La Parrilla del Lago", ciudad:"Puerto Montt", telefono:"+56 9 5678 9012", resenas:450, rating:4.5},
-  {nombre:"El Rincón del Pescado", ciudad:"Puerto Montt", telefono:"+56 9 5789 0123", resenas:420, rating:4.3},
-  {nombre:"Café del Canal", ciudad:"Puerto Montt - Centro", telefono:"+56 9 5890 1234", resenas:390, rating:4.7},
-  {nombre:"La Mesa del Sur", ciudad:"Puerto Montt", telefono:"+56 9 5901 2345", resenas:360, rating:4.4},
-  {nombre:"El Fogón del Lago", ciudad:"Puerto Montt", telefono:"+56 9 5012 3456", resenas:330, rating:4.6},
-  {nombre:"Café del Tiempo", ciudad:"Puerto Montt - Centro", telefono:"+56 9 5123 4568", resenas:300, rating:4.5},
-  {nombre:"La Casa del Pescado", ciudad:"Puerto Montt", telefono:"+56 9 5234 5679", resenas:270, rating:4.3},
-  {nombre:"El Gusto del Canal", ciudad:"Puerto Montt", telefono:"+56 9 5345 6780", resenas:240, rating:4.7},
-  {nombre:"Café del Viento Sur", ciudad:"Puerto Montt - Centro", telefono:"+56 9 5456 7891", resenas:210, rating:4.4},
-  {nombre:"La Ruta del Lago", ciudad:"Puerto Montt", telefono:"+56 9 5567 8902", resenas:180, rating:4.6},
-  {nombre:"El Sazón del Sur", ciudad:"Puerto Montt", telefono:"+56 9 5678 9013", resenas:150, rating:4.5},
-  {nombre:"Café del Arte", ciudad:"Puerto Montt - Centro", telefono:"+56 9 5789 0124", resenas:120, rating:4.3},
-  {nombre:"La Piedra del Lago", ciudad:"Puerto Montt", telefono:"+56 9 5890 1235", resenas:100, rating:4.7},
-  {nombre:"El Mirador del Canal", ciudad:"Puerto Montt", telefono:"+56 9 5901 2346", resenas:90, rating:4.4},
-  {nombre:"Café del Fin del Mundo", ciudad:"Puerto Montt - Centro", telefono:"+56 9 5012 3457", resenas:80, rating:4.6},
-  {nombre:"La Cocina del Lago", ciudad:"Puerto Montt", telefono:"+56 9 5123 4569", resenas:70, rating:4.5},
-  {nombre:"El Camino del Sur", ciudad:"Puerto Montt", telefono:"+56 9 5234 5680", resenas:60, rating:4.3},
-  {nombre:"Café del Puerto", ciudad:"Puerto Montt - Centro", telefono:"+56 9 5345 6781", resenas:50, rating:4.7},
-  {nombre:"La Parrilla del Canal", ciudad:"Puerto Montt", telefono:"+56 9 5456 7892", resenas:40, rating:4.4},
-  {nombre:"El Sabor del Lago", ciudad:"Puerto Montt", telefono:"+56 9 5567 8903", resenas:30, rating:4.6},
-
-  // La Serena (20 restaurantes)
-  {nombre:"Café del Mar", ciudad:"La Serena", telefono:"+56 9 4123 4567", resenas:580, rating:4.5},
-  {nombre:"El Rincón del Desierto", ciudad:"La Serena - Centro", telefono:"+56 9 4234 5678", resenas:520, rating:4.6},
-  {nombre:"La Cocina del Norte", ciudad:"La Serena", telefono:"+56 9 4345 6789", resenas:480, rating:4.4},
-  {nombre:"Café del Valle", ciudad:"La Serena", telefono:"+56 9 4456 7890", resenas:450, rating:4.7},
-  {nombre:"El Sabor del Elqui", ciudad:"La Serena - Centro", telefono:"+56 9 4567 8901", resenas:420, rating:4.5},
-  {nombre:"La Parrilla Serena", ciudad:"La Serena", telefono:"+56 9 4678 9012", resenas:390, rating:4.3},
-  {nombre:"Café del Sol", ciudad:"La Serena", telefono:"+56 9 4789 0123", resenas:360, rating:4.6},
-  {nombre:"El Fogón del Norte", ciudad:"La Serena - Centro", telefono:"+56 9 4890 1234", resenas:330, rating:4.4},
-  {nombre:"La Mesa del Valle", ciudad:"La Serena", telefono:"+56 9 4901 2345", resenas:300, rating:4.7},
-  {nombre:"Café del Tiempo", ciudad:"La Serena", telefono:"+56 9 4012 3456", resenas:270, rating:4.5},
-  {nombre:"El Gusto del Desierto", ciudad:"La Serena - Centro", telefono:"+56 9 4123 4568", resenas:240, rating:4.3},
-  {nombre:"La Casa del Elqui", ciudad:"La Serena", telefono:"+56 9 4234 5679", resenas:210, rating:4.6},
-  {nombre:"Café del Viento", ciudad:"La Serena", telefono:"+56 9 4345 6780", resenas:180, rating:4.4},
-  {nombre:"El Camino del Norte", ciudad:"La Serena - Centro", telefono:"+56 9 4456 7891", resenas:150, rating:4.7},
-  {nombre:"La Ruta del Valle", ciudad:"La Serena", telefono:"+56 9 4567 8902", resenas:120, rating:4.5},
-  {nombre:"Café del Arte", ciudad:"La Serena", telefono:"+56 9 4678 9013", resenas:100, rating:4.3},
-  {nombre:"El Sazón del Desierto", ciudad:"La Serena - Centro", telefono:"+56 9 4789 0124", resenas:90, rating:4.6},
-  {nombre:"La Piedra del Elqui", ciudad:"La Serena", telefono:"+56 9 4890 1235", resenas:80, rating:4.4},
-  {nombre:"Café del Mar", ciudad:"La Serena", telefono:"+56 9 4901 2346", resenas:70, rating:4.7},
-  {nombre:"El Mirador del Valle", ciudad:"La Serena - Centro", telefono:"+56 9 4012 3457", resenas:60, rating:4.5},
-
-  // Antofagasta (20 restaurantes)
-  {nombre:"Café del Desierto", ciudad:"Antofagasta", telefono:"+56 9 3123 4567", resenas:540, rating:4.4},
-  {nombre:"El Rincón del Norte", ciudad:"Antofagasta - Centro", telefono:"+56 9 3234 5678", resenas:490, rating:4.5},
-  {nombre:"La Cocina del Mar", ciudad:"Antofagasta", telefono:"+56 9 3345 6789", resenas:450, rating:4.6},
-  {nombre:"Café del Puerto", ciudad:"Antofagasta", telefono:"+56 9 3456 7890", resenas:420, rating:4.3},
-  {nombre:"El Sabor del Desierto", ciudad:"Antofagasta - Centro", telefono:"+56 9 3567 8901", resenas:390, rating:4.7},
-  {nombre:"La Parrilla del Norte", ciudad:"Antofagasta", telefono:"+56 9 3678 9012", resenas:360, rating:4.4},
-  {nombre:"Café del Sol", ciudad:"Antofagasta", telefono:"+56 9 3789 0123", resenas:330, rating:4.5},
-  {nombre:"El Fogón del Mar", ciudad:"Antofagasta - Centro", telefono:"+56 9 3890 1234", resenas:300, rating:4.6},
-  {nombre:"La Mesa del Desierto", ciudad:"Antofagasta", telefono:"+56 9 3901 2345", resenas:270, rating:4.3},
-  {nombre:"Café del Tiempo", ciudad:"Antofagasta", telefono:"+56 9 3012 3456", resenas:240, rating:4.7},
-  {nombre:"El Gusto del Norte", ciudad:"Antofagasta - Centro", telefono:"+56 9 3123 4568", resenas:210, rating:4.4},
-  {nombre:"La Casa del Puerto", ciudad:"Antofagasta", telefono:"+56 9 3234 5679", resenas:180, rating:4.5},
-  {nombre:"Café del Viento", ciudad:"Antofagasta", telefono:"+56 9 3345 6780", resenas:150, rating:4.6},
-  {nombre:"El Camino del Desierto", ciudad:"Antofagasta - Centro", telefono:"+56 9 3456 7891", resenas:120, rating:4.3},
-  {nombre:"La Ruta del Mar", ciudad:"Antofagasta", telefono:"+56 9 3567 8902", resenas:100, rating:4.7},
-  {nombre:"Café del Arte", ciudad:"Antofagasta", telefono:"+56 9 3678 9013", resenas:90, rating:4.4},
-  {nombre:"El Sazón del Norte", ciudad:"Antofagasta - Centro", telefono:"+56 9 3789 0124", resenas:80, rating:4.5},
-  {nombre:"La Piedra del Desierto", ciudad:"Antofagasta", telefono:"+56 9 3890 1235", resenas:70, rating:4.6},
-  {nombre:"Café del Sol", ciudad:"Antofagasta", telefono:"+56 9 3901 2346", resenas:60, rating:4.3},
-  {nombre:"El Mirador del Puerto", ciudad:"Antofagasta - Centro", telefono:"+56 9 3012 3457", resenas:50, rating:4.7},
-
-  // Temuco (15 restaurantes)
-  {nombre:"Café del Sur", ciudad:"Temuco", telefono:"+56 9 2123 4567", resenas:480, rating:4.5},
-  {nombre:"El Rincón Araucano", ciudad:"Temuco - Centro", telefono:"+56 9 2234 5678", resenas:430, rating:4.6},
-  {nombre:"La Cocina del Sur", ciudad:"Temuco", telefono:"+56 9 2345 6789", resenas:390, rating:4.4},
-  {nombre:"Café del Lago", ciudad:"Temuco", telefono:"+56 9 2456 7890", resenas:360, rating:4.7},
-  {nombre:"El Sabor del Sur", ciudad:"Temuco - Centro", telefono:"+56 9 2567 8901", resenas:330, rating:4.5},
-  {nombre:"La Parrilla Araucana", ciudad:"Temuco", telefono:"+56 9 2678 9012", resenas:300, rating:4.3},
-  {nombre:"Café del Tiempo", ciudad:"Temuco", telefono:"+56 9 2789 0123", resenas:270, rating:4.6},
-  {nombre:"El Fogón del Sur", ciudad:"Temuco - Centro", telefono:"+56 9 2890 1234", resenas:240, rating:4.4},
-  {nombre:"La Mesa del Lago", ciudad:"Temuco", telefono:"+56 9 2901 2345", resenas:210, rating:4.7},
-  {nombre:"Café del Viento", ciudad:"Temuco", telefono:"+56 9 2012 3456", resenas:180, rating:4.5},
-  {nombre:"El Gusto Araucano", ciudad:"Temuco - Centro", telefono:"+56 9 2123 4568", resenas:150, rating:4.3},
-  {nombre:"La Casa del Sur", ciudad:"Temuco", telefono:"+56 9 2234 5679", resenas:120, rating:4.6},
-  {nombre:"Café del Arte", ciudad:"Temuco", telefono:"+56 9 2345 6780", resenas:100, rating:4.4},
-  {nombre:"El Camino del Sur", ciudad:"Temuco - Centro", telefono:"+56 9 2456 7891", resenas:90, rating:4.7},
-  {nombre:"La Ruta Araucana", ciudad:"Temuco", telefono:"+56 9 2567 8902", resenas:80, rating:4.5},
-
-  // Concepción (15 restaurantes)
-  {nombre:"Café del Bio-Bío", ciudad:"Concepción", telefono:"+56 9 1123 4567", resenas:450, rating:4.4},
-  {nombre:"El Rincón del Sur", ciudad:"Concepción - Centro", telefono:"+56 9 1234 5678", resenas:400, rating:4.5},
-  {nombre:"La Cocina del Bio-Bío", ciudad:"Concepción", telefono:"+56 9 1345 6789", resenas:360, rating:4.6},
-  {nombre:"Café del Sur", ciudad:"Concepción", telefono:"+56 9 1456 7890", resenas:330, rating:4.3},
-  {nombre:"El Sabor del Bio-Bío", ciudad:"Concepción - Centro", telefono:"+56 9 1567 8901", resenas:300, rating:4.7},
-  {nombre:"La Parrilla del Sur", ciudad:"Concepción", telefono:"+56 9 1678 9012", resenas:270, rating:4.4},
-  {nombre:"Café del Tiempo", ciudad:"Concepción", telefono:"+56 9 1789 0123", resenas:240, rating:4.5},
-  {nombre:"El Fogón del Bio-Bío", ciudad:"Concepción - Centro", telefono:"+56 9 1890 1234", resenas:210, rating:4.6},
-  {nombre:"La Mesa del Sur", ciudad:"Concepción", telefono:"+56 9 1901 2345", resenas:180, rating:4.3},
-  {nombre:"Café del Viento", ciudad:"Concepción", telefono:"+56 9 1012 3456", resenas:150, rating:4.7},
-  {nombre:"El Gusto del Sur", ciudad:"Concepción - Centro", telefono:"+56 9 1123 4568", resenas:120, rating:4.4},
-  {nombre:"La Casa del Bio-Bío", ciudad:"Concepción", telefono:"+56 9 1234 5679", resenas:100, rating:4.5},
-  {nombre:"Café del Arte", ciudad:"Concepción", telefono:"+56 9 1345 6780", resenas:90, rating:4.6},
-  {nombre:"El Camino del Sur", ciudad:"Concepción - Centro", telefono:"+56 9 1456 7891", resenas:80, rating:4.3},
-  {nombre:"La Ruta del Bio-Bío", ciudad:"Concepción", telefono:"+56 9 1567 8902", resenas:70, rating:4.7}
+// ==================== DATOS DE LEADS ====================
+const leads = [
+  {ciudad:"San Miguel", telefono:"+5491124608467", planSeleccionado:null, skill:false, potential:false},
+  {ciudad:"San Miguel", telefono:"+5491166506083", planSeleccionado:null, skill:false, potential:false},
+  {ciudad:"San Miguel", telefono:"+5491144511443", planSeleccionado:null, skill:false, potential:false},
+  {ciudad:"San Miguel", telefono:"+5491146674002", planSeleccionado:null, skill:false, potential:false},
+  {ciudad:"San Miguel", telefono:"+5491176092256", planSeleccionado:null, skill:false, potential:false},
+  {ciudad:"San Miguel", telefono:"+5491146670163", planSeleccionado:null, skill:false, potential:false},
+  {ciudad:"San Miguel", telefono:"+5491146646102", planSeleccionado:null, skill:false, potential:false},
+  {ciudad:"San Miguel", telefono:"+5491146647840", planSeleccionado:null, skill:false, potential:false},
+  {ciudad:"San Miguel", telefono:"+5491128482080", planSeleccionado:null, skill:false, potential:false},
+  {ciudad:"San Miguel", telefono:"+5491165523919", planSeleccionado:null, skill:false, potential:false},
+  {ciudad:"San Miguel", telefono:"+5491146640283", planSeleccionado:null, skill:false, potential:false},
+  {ciudad:"San Miguel", telefono:"+5491126584874", planSeleccionado:null, skill:false, potential:false},
+  {ciudad:"San Miguel", telefono:"+5491146678326", planSeleccionado:null, skill:false, potential:false},
+  {ciudad:"San Miguel", telefono:"+5491164100004", planSeleccionado:null, skill:false, potential:false},
+  {ciudad:"San Miguel", telefono:"+5491170076213", planSeleccionado:null, skill:false, potential:false}
 ];
 
-const repuestos = [
-  // Santiago (70 repuestos)
-  {nombre:"Autopartes Santiago", ciudad:"Santiago - Estación Central", telefono:"+56 9 8812 3456", resenas:280, rating:4.3, tipo:"Autos"},
-  {nombre:"Moto Center Santiago", ciudad:"Santiago - Recoleta", telefono:"+56 9 8823 4567", resenas:250, rating:4.5, tipo:"Motos"},
-  {nombre:"Repuestos del Sur", ciudad:"Santiago - La Florida", telefono:"+56 9 8834 5678", resenas:230, rating:4.4, tipo:"Autos"},
-  {nombre:"Moto Parts", ciudad:"Santiago - Puente Alto", telefono:"+56 9 8845 6789", resenas:210, rating:4.6, tipo:"Motos"},
-  {nombre:"Autopartes Express", ciudad:"Santiago - Maipú", telefono:"+56 9 8856 7890", resenas:190, rating:4.2, tipo:"Autos"},
-  {nombre:"Moto Repuestos Chile", ciudad:"Santiago - Las Condes", telefono:"+56 9 8867 8901", resenas:170, rating:4.7, tipo:"Motos"},
-  {nombre:"Repuestos Nacionales", ciudad:"Santiago - Providencia", telefono:"+56 9 8878 9012", resenas:150, rating:4.3, tipo:"Autos"},
-  {nombre:"Moto Shop", ciudad:"Santiago - uñoa", telefono:"+56 9 8889 0123", resenas:130, rating:4.5, tipo:"Motos"},
-  {nombre:"Autopartes Premium", ciudad:"Santiago - Vitacura", telefono:"+56 9 8890 1234", resenas:110, rating:4.4, tipo:"Autos"},
-  {nombre:"Moto Repuestos Express", ciudad:"Santiago - La Reina", telefono:"+56 9 8801 2345", resenas:100, rating:4.6, tipo:"Motos"},
-  {nombre:"Repuestos Económicos", ciudad:"Santiago - San Bernardo", telefono:"+56 9 8812 3457", resenas:90, rating:4.1, tipo:"Autos"},
-  {nombre:"Moto Center", ciudad:"Santiago - Quilicura", telefono:"+56 9 8823 4568", resenas:80, rating:4.5, tipo:"Motos"},
-  {nombre:"Autopartes del Norte", ciudad:"Santiago - Huechuraba", telefono:"+56 9 8834 5679", resenas:70, rating:4.3, tipo:"Autos"},
-  {nombre:"Moto Parts Express", ciudad:"Santiago - Conchalí", telefono:"+56 9 8845 6780", resenas:60, rating:4.7, tipo:"Motos"},
-  {nombre:"Repuestos Universales", ciudad:"Santiago - Independencia", telefono:"+56 9 8856 7891", resenas:50, rating:4.2, tipo:"Autos"},
-  {nombre:"Moto Repuestos del Sur", ciudad:"Santiago - La Cisterna", telefono:"+56 9 8867 8902", resenas:40, rating:4.6, tipo:"Motos"},
-  {nombre:"Autopartes Rápidas", ciudad:"Santiago - El Bosque", telefono:"+56 9 8878 9013", resenas:30, rating:4.4, tipo:"Autos"},
-  {nombre:"Moto Shop Chile", ciudad:"Santiago - Pedro Aguirre Cerda", telefono:"+56 9 8889 0124", resenas:20, rating:4.5, tipo:"Motos"},
-  {nombre:"Repuestos del Centro", ciudad:"Santiago - Santiago Centro", telefono:"+56 9 8890 1235", resenas:15, rating:4.3, tipo:"Autos"},
-  {nombre:"Moto Repuestos Premium", ciudad:"Santiago - Las Condes", telefono:"+56 9 8801 2346", resenas:10, rating:4.7, tipo:"Motos"},
-  {nombre:"Autopartes del Este", ciudad:"Santiago - Peñalolén", telefono:"+56 9 8812 3458", resenas:8, rating:4.2, tipo:"Autos"},
-  {nombre:"Moto Center Express", ciudad:"Santiago - Macul", telefono:"+56 9 8823 4569", resenas:5, rating:4.6, tipo:"Motos"},
-  {nombre:"Repuestos del Oeste", ciudad:"Santiago - Pudahuel", telefono:"+56 9 8834 5680", resenas:3, rating:4.4, tipo:"Autos"},
-  {nombre:"Moto Parts Chile", ciudad:"Santiago - Cerro Navia", telefono:"+56 9 8845 6781", resenas:2, rating:4.5, tipo:"Motos"},
-  {nombre:"Autopartes del Sur", ciudad:"Santiago - La Granja", telefono:"+56 9 8856 7892", resenas:1, rating:4.3, tipo:"Autos"},
-  {nombre:"Moto Repuestos del Norte", ciudad:"Santiago - Renca", telefono:"+56 9 8867 8903", resenas:1, rating:4.7, tipo:"Motos"},
-  {nombre:"Repuestos Rápidos", ciudad:"Santiago - Lo Prado", telefono:"+56 9 8878 9014", resenas:1, rating:4.2, tipo:"Autos"},
-  {nombre:"Moto Shop Express", ciudad:"Santiago - Quinta Normal", telefono:"+56 9 8889 0125", resenas:1, rating:4.6, tipo:"Motos"},
-  {nombre:"Autopartes Universales", ciudad:"Santiago - Estación Central", telefono:"+56 9 8890 1236", resenas:1, rating:4.4, tipo:"Autos"},
-  {nombre:"Moto Repuestos del Este", ciudad:"Santiago - La Florida", telefono:"+56 9 8801 2347", resenas:1, rating:4.5, tipo:"Motos"},
-  {nombre:"Repuestos del Norte", ciudad:"Santiago - Recoleta", telefono:"+56 9 8812 3459", resenas:1, rating:4.3, tipo:"Autos"},
-  {nombre:"Moto Center Premium", ciudad:"Santiago - Puente Alto", telefono:"+56 9 8823 4570", resenas:1, rating:4.7, tipo:"Motos"},
-  {nombre:"Autopartes Económicas", ciudad:"Santiago - Maipú", telefono:"+56 9 8834 5681", resenas:1, rating:4.2, tipo:"Autos"},
-  {nombre:"Moto Parts del Sur", ciudad:"Santiago - Las Condes", telefono:"+56 9 8845 6782", resenas:1, rating:4.6, tipo:"Motos"},
-  {nombre:"Repuestos Premium", ciudad:"Santiago - Providencia", telefono:"+56 9 8856 7893", resenas:1, rating:4.4, tipo:"Autos"},
-  {nombre:"Moto Repuestos del Oeste", ciudad:"Santiago - Ñuñoa", telefono:"+56 9 8867 8904", resenas:1, rating:4.5, tipo:"Motos"},
-  {nombre:"Autopartes del Centro", ciudad:"Santiago - Vitacura", telefono:"+56 9 8878 9015", resenas:1, rating:4.3, tipo:"Autos"},
-  {nombre:"Moto Shop Premium", ciudad:"Santiago - La Reina", telefono:"+56 9 8889 0126", resenas:1, rating:4.7, tipo:"Motos"},
-  {nombre:"Repuestos del Sur", ciudad:"Santiago - San Bernardo", telefono:"+56 9 8890 1237", resenas:1, rating:4.2, tipo:"Autos"},
-  {nombre:"Moto Repuestos Rápidos", ciudad:"Santiago - Quilicura", telefono:"+56 9 8801 2348", resenas:1, rating:4.6, tipo:"Motos"},
-  {nombre:"Autopartes Express", ciudad:"Santiago - Huechuraba", telefono:"+56 9 8812 3460", resenas:1, rating:4.4, tipo:"Autos"},
-  {nombre:"Moto Center del Norte", ciudad:"Santiago - Conchalí", telefono:"+56 9 8823 4571", resenas:1, rating:4.5, tipo:"Motos"},
-  {nombre:"Repuestos del Este", ciudad:"Santiago - Independencia", telefono:"+56 9 8834 5682", resenas:1, rating:4.3, tipo:"Autos"},
-  {nombre:"Moto Parts del Norte", ciudad:"Santiago - La Cisterna", telefono:"+56 9 8845 6783", resenas:1, rating:4.7, tipo:"Motos"},
-  {nombre:"Autopartes del Oeste", ciudad:"Santiago - El Bosque", telefono:"+56 9 8856 7894", resenas:1, rating:4.2, tipo:"Autos"},
-  {nombre:"Moto Repuestos del Centro", ciudad:"Santiago - Pedro Aguirre Cerda", telefono:"+56 9 8867 8905", resenas:1, rating:4.6, tipo:"Motos"},
-  {nombre:"Repuestos Universales", ciudad:"Santiago - Santiago Centro", telefono:"+56 9 8878 9016", resenas:1, rating:4.4, tipo:"Autos"},
-  {nombre:"Moto Shop del Sur", ciudad:"Santiago - Las Condes", telefono:"+56 9 8889 0127", resenas:1, rating:4.5, tipo:"Motos"},
-  {nombre:"Autopartes Premium", ciudad:"Santiago - Peñalolén", telefono:"+56 9 8890 1238", resenas:1, rating:4.3, tipo:"Autos"},
-  {nombre:"Moto Repuestos Universales", ciudad:"Santiago - Macul", telefono:"+56 9 8801 2349", resenas:1, rating:4.7, tipo:"Motos"},
-  {nombre:"Repuestos Económicos", ciudad:"Santiago - Pudahuel", telefono:"+56 9 8812 3461", resenas:1, rating:4.2, tipo:"Autos"},
-  {nombre:"Moto Center del Sur", ciudad:"Santiago - Cerro Navia", telefono:"+56 9 8823 4572", resenas:1, rating:4.6, tipo:"Motos"},
-  {nombre:"Autopartes del Norte", ciudad:"Santiago - La Granja", telefono:"+56 9 8834 5683", resenas:1, rating:4.4, tipo:"Autos"},
-  {nombre:"Moto Parts del Este", ciudad:"Santiago - Renca", telefono:"+56 9 8845 6784", resenas:1, rating:4.5, tipo:"Motos"},
-  {nombre:"Repuestos del Centro", ciudad:"Santiago - Lo Prado", telefono:"+56 9 8856 7895", resenas:1, rating:4.3, tipo:"Autos"},
-  {nombre:"Moto Repuestos Económicos", ciudad:"Santiago - Quinta Normal", telefono:"+56 9 8867 8906", resenas:1, rating:4.7, tipo:"Motos"},
-  {nombre:"Autopartes Rápidas", ciudad:"Santiago - Estación Central", telefono:"+56 9 8878 9017", resenas:1, rating:4.2, tipo:"Autos"},
-  {nombre:"Moto Shop del Norte", ciudad:"Santiago - Recoleta", telefono:"+56 9 8889 0128", resenas:1, rating:4.6},
-  {nombre:"Repuestos Premium", ciudad:"Santiago - Puente Alto", telefono:"+56 9 8890 1239", resenas:1, rating:4.4, tipo:"Autos"},
-  {nombre:"Moto Repuestos del Oeste", ciudad:"Santiago - Maipú", telefono:"+56 9 8801 2350", resenas:1, rating:4.5, tipo:"Motos"},
-  {nombre:"Autopartes del Sur", ciudad:"Santiago - Las Condes", telefono:"+56 9 8812 3462", resenas:1, rating:4.3, tipo:"Autos"},
-  {nombre:"Moto Center del Este", ciudad:"Santiago - Providencia", telefono:"+56 9 8823 4573", resenas:1, rating:4.7, tipo:"Motos"},
-  {nombre:"Repuestos del Norte", ciudad:"Santiago - Ñuñoa", telefono:"+56 9 8834 5684", resenas:1, rating:4.2, tipo:"Autos"},
-  {nombre:"Moto Parts Rápidos", ciudad:"Santiago - Vitacura", telefono:"+56 9 8845 6785", resenas:1, rating:4.6, tipo:"Motos"},
-  {nombre:"Autopartes Universales", ciudad:"Santiago - La Reina", telefono:"+56 9 8856 7896", resenas:1, rating:4.4, tipo:"Autos"},
-  {nombre:"Moto Repuestos Premium", ciudad:"Santiago - San Bernardo", telefono:"+56 9 8867 8907", resenas:1, rating:4.5, tipo:"Motos"},
-  {nombre:"Repuestos del Oeste", ciudad:"Santiago - Quilicura", telefono:"+56 9 8878 9018", resenas:1, rating:4.3, tipo:"Autos"},
-  {nombre:"Moto Shop del Este", ciudad:"Santiago - Huechuraba", telefono:"+56 9 8889 0129", resenas:1, rating:4.7, tipo:"Motos"},
-  {nombre:"Autopartes del Centro", ciudad:"Santiago - Conchalí", telefono:"+56 9 8890 1240", resenas:1, rating:4.2, tipo:"Autos"},
-  {nombre:"Moto Repuestos del Sur", ciudad:"Santiago - Independencia", telefono:"+56 9 8801 2351", resenas:1, rating:4.6, tipo:"Motos"},
+// ==================== PRECIOS ====================
+const PLANES = {
+  basico:   { nombre:"Básico",   precio:98000,  mantenimiento:0,  emoji:"🥉" },
+  avanzado: { nombre:"Avanzado", precio:160000, mantenimiento:30, emoji:"⭐" },
+  premium:  { nombre:"Premium",  precio:430000, mantenimiento:60, emoji:"🥇" }
+};
+const PRECIO_SKILL = 40;
 
-  // Valparaíso (35 repuestos)
-  {nombre:"Autopartes Valparaíso", ciudad:"Valparaíso", telefono:"+56 9 7812 3456", resenas:210, rating:4.4, tipo:"Autos"},
-  {nombre:"Moto Center Porteño", ciudad:"Valparaíso - Centro", telefono:"+56 9 7823 4567", resenas:190, rating:4.5, tipo:"Motos"},
-  {nombre:"Repuestos del Puerto", ciudad:"Valparaíso", telefono:"+56 9 7834 5678", resenas:170, rating:4.3, tipo:"Autos"},
-  {nombre:"Moto Parts", ciudad:"Valparaíso - Cerro Alegre", telefono:"+56 9 7845 6789", resenas:150, rating:4.6, tipo:"Motos"},
-  {nombre:"Autopartes Express", ciudad:"Valparaíso", telefono:"+56 9 7856 7890", resenas:130, rating:4.2, tipo:"Autos"},
-  {nombre:"Moto Repuestos del Cerro", ciudad:"Valparaíso - Cerro Concepción", telefono:"+56 9 7867 8901", resenas:110, rating:4.7, tipo:"Motos"},
-  {nombre:"Repuestos Nacionales", ciudad:"Valparaíso", telefono:"+56 9 7878 9012", resenas:100, rating:4.4, tipo:"Autos"},
-  {nombre:"Moto Shop", ciudad:"Valparaíso - Centro", telefono:"+56 9 7889 0123", resenas:90, rating:4.5, tipo:"Motos"},
-  {nombre:"Autopartes Premium", ciudad:"Valparaíso", telefono:"+56 9 7890 1234", resenas:80, rating:4.3, tipo:"Autos"},
-  {nombre:"Moto Repuestos Express", ciudad:"Valparaíso - Cerro Alegre", telefono:"+56 9 7801 2345", resenas:70, rating:4.6, tipo:"Motos"},
-  {nombre:"Repuestos Económicos", ciudad:"Valparaíso", telefono:"+56 9 7812 3457", resenas:60, rating:4.1, tipo:"Autos"},
-  {nombre:"Moto Center", ciudad:"Valparaíso - Cerro Concepción", telefono:"+56 9 7823 4568", resenas:50, rating:4.5, tipo:"Motos"},
-  {nombre:"Autopartes del Norte", ciudad:"Valparaíso", telefono:"+56 9 7834 5679", resenas:40, rating:4.3, tipo:"Autos"},
-  {nombre:"Moto Parts Express", ciudad:"Valparaíso - Centro", telefono:"+56 9 7845 6780", resenas:30, rating:4.7, tipo:"Motos"},
-  {nombre:"Repuestos Universales", ciudad:"Valparaíso", telefono:"+56 9 7856 7891", resenas:20, rating:4.2, tipo:"Autos"},
-  {nombre:"Moto Repuestos del Sur", ciudad:"Valparaíso - Cerro Alegre", telefono:"+56 9 7867 8902", resenas:15, rating:4.6, tipo:"Motos"},
-  {nombre:"Autopartes Rápidas", ciudad:"Valparaíso", telefono:"+56 9 7878 9013", resenas:10, rating:4.4, tipo:"Autos"},
-  {nombre:"Moto Shop Chile", ciudad:"Valparaíso - Cerro Concepción", telefono:"+56 9 7889 0124", resenas:8, rating:4.5, tipo:"Motos"},
-  {nombre:"Repuestos del Centro", ciudad:"Valparaíso", telefono:"+56 9 7890 1235", resenas:5, rating:4.3, tipo:"Autos"},
-  {nombre:"Moto Repuestos Premium", ciudad:"Valparaíso - Centro", telefono:"+56 9 7801 2346", resenas:3, rating:4.7, tipo:"Motos"},
-  {nombre:"Autopartes del Este", ciudad:"Valparaíso", telefono:"+56 9 7812 3458", resenas:2, rating:4.2, tipo:"Autos"},
-  {nombre:"Moto Center Express", ciudad:"Valparaíso - Cerro Alegre", telefono:"+56 9 7823 4569", resenas:1, rating:4.6, tipo:"Motos"},
-  {nombre:"Repuestos del Oeste", ciudad:"Valparaíso", telefono:"+56 9 7834 5680", resenas:1, rating:4.4, tipo:"Autos"},
-  {nombre:"Moto Parts Chile", ciudad:"Valparaíso - Cerro Concepción", telefono:"+56 9 7845 6781", resenas:1, rating:4.5, tipo:"Motos"},
-  {nombre:"Autopartes del Sur", ciudad:"Valparaíso", telefono:"+56 9 7856 7892", resenas:1, rating:4.3, tipo:"Autos"},
-  {nombre:"Moto Repuestos del Norte", ciudad:"Valparaíso - Centro", telefono:"+56 9 7867 8903", resenas:1, rating:4.7, tipo:"Motos"},
-  {nombre:"Repuestos Rápidos", ciudad:"Valparaíso", telefono:"+56 9 7878 9014", resenas:1, rating:4.2, tipo:"Autos"},
-  {nombre:"Moto Shop Express", ciudad:"Valparaíso - Cerro Alegre", telefono:"+56 9 7889 0125", resenas:1, rating:4.6, tipo:"Motos"},
-  {nombre:"Autopartes Universales", ciudad:"Valparaíso", telefono:"+56 9 7890 1236", resenas:1, rating:4.4, tipo:"Autos"},
-  {nombre:"Moto Repuestos del Este", ciudad:"Valparaíso - Cerro Concepción", telefono:"+56 9 7801 2347", resenas:1, rating:4.5, tipo:"Motos"},
-  {nombre:"Repuestos del Norte", ciudad:"Valparaíso", telefono:"+56 9 7812 3459", resenas:1, rating:4.3, tipo:"Autos"},
-  {nombre:"Moto Center Premium", ciudad:"Valparaíso - Centro", telefono:"+56 9 7823 4570", resenas:1, rating:4.7, tipo:"Motos"},
-  {nombre:"Autopartes Económicas", ciudad:"Valparaíso", telefono:"+56 9 7834 5681", resenas:1, rating:4.2, tipo:"Autos"},
-  {nombre:"Moto Parts del Sur", ciudad:"Valparaíso - Cerro Alegre", telefono:"+56 9 7845 6782", resenas:1, rating:4.6, tipo:"Motos"},
-  {nombre:"Repuestos Premium", ciudad:"Valparaíso", telefono:"+56 9 7856 7893", resenas:1, rating:4.4, tipo:"Autos"},
+// ==================== GENERAR MENSAJE WHATSAPP DINÁMICO ====================
+function generarMensajeWA(idx) {
+  const lead = leads[idx];
+  let msg = `👋 ¡Hola! Buenos Dias!!. Somos NEXO-ART. Ayudamos a casas de repuestos de Motos y Automotrices a vender más y sistematizar su atención al cliente con su propia Tienda Web con venta directa a WhatsApp. Integramos todas tus redes sociales.\n\n🚀 ¿Qué vas a lograr con tu tienda online?\n* Catálogo 24/7: Tus clientes buscan el repuesto en tu web, consultan stock/precios y envían el pedido listo a tu WhatsApp en un clic.\n* Integración con Meta Business: El sistema envía automáticamente los datos del pedido y del cliente a tu WhatsApp para que solo tengas que cerrar la venta.\n* Presencia local impecable: Optimizamos tu perfil de Google Maps para que los clientes de tu zona te encuentren primeros a vos y no a tu competencia.\n\n💡 Tu tienda web no es un gasto, es un vendedor automático:\n* Chau mensajes repetitivos: Ahorrá el tiempo de responder constantemente "¿Tenés stock?" o "¿Cuánto cuesta?".\n* Aumentá tus ganancias: Si tu equipo pierde 1 hora al día respondiendo consultas básicas, son más de 25 horas al mes perdidas. Convertí ese tiempo en despachos y ventas reales.\n* Atención profesional: Brindale a tu cliente la rapidez que espera al comprar repuestos para su vehículo. Te devuelvo lo más valioso: tiempo para hacer crecer tu negocio.\n\n🔗 Mirá un ejemplo de cómo se vería tu catálogo online acá: https://fc-racing.vercel.app/`;
 
-  // Viña del Mar (30 repuestos)
-  {nombre:"Autopartes Viña", ciudad:"Viña del Mar", telefono:"+56 9 6812 3456", resenas:180, rating:4.3, tipo:"Autos"},
-  {nombre:"Moto Center Viña", ciudad:"Viña del Mar - Centro", telefono:"+56 9 6823 4567", resenas:160, rating:4.5, tipo:"Motos"},
-  {nombre:"Repuestos del Mar", ciudad:"Viña del Mar", telefono:"+56 9 6834 5678", resenas:140, rating:4.4, tipo:"Autos"},
-  {nombre:"Moto Parts", ciudad:"Viña del Mar - Reñaca", telefono:"+56 9 6845 6789", resenas:120, rating:4.6, tipo:"Motos"},
-  {nombre:"Autopartes Express", ciudad:"Viña del Mar", telefono:"+56 9 6856 7890", resenas:100, rating:4.2, tipo:"Autos"},
-  {nombre:"Moto Repuestos del Mar", ciudad:"Viña del Mar - Centro", telefono:"+56 9 6867 8901", resenas:90, rating:4.7, tipo:"Motos"},
-  {nombre:"Repuestos Nacionales", ciudad:"Viña del Mar", telefono:"+56 9 6878 9012", resenas:80, rating:4.3, tipo:"Autos"},
-  {nombre:"Moto Shop", ciudad:"Viña del Mar - Reñaca", telefono:"+56 9 6889 0123", resenas:70, rating:4.5, tipo:"Motos"},
-  {nombre:"Autopartes Premium", ciudad:"Viña del Mar", telefono:"+56 9 6890 1234", resenas:60, rating:4.4, tipo:"Autos"},
-  {nombre:"Moto Repuestos Express", ciudad:"Viña del Mar - Centro", telefono:"+56 9 6801 2345", resenas:50, rating:4.6, tipo:"Motos"},
-  {nombre:"Repuestos Económicos", ciudad:"Viña del Mar", telefono:"+56 9 6812 3457", resenas:40, rating:4.1, tipo:"Autos"},
-  {nombre:"Moto Center", ciudad:"Viña del Mar - Reñaca", telefono:"+56 9 6823 4568", resenas:30, rating:4.5, tipo:"Motos"},
-  {nombre:"Autopartes del Norte", ciudad:"Viña del Mar", telefono:"+56 9 6834 5679", resenas:20, rating:4.3, tipo:"Autos"},
-  {nombre:"Moto Parts Express", ciudad:"Viña del Mar - Centro", telefono:"+56 9 6845 6780", resenas:15, rating:4.7, tipo:"Motos"},
-  {nombre:"Repuestos Universales", ciudad:"Viña del Mar", telefono:"+56 9 6856 7891", resenas:10, rating:4.2, tipo:"Autos"},
-  {nombre:"Moto Repuestos del Sur", ciudad:"Viña del Mar - Reñaca", telefono:"+56 9 6867 8902", resenas:8, rating:4.6, tipo:"Motos"},
-  {nombre:"Autopartes Rápidas", ciudad:"Viña del Mar", telefono:"+56 9 6878 9013", resenas:5, rating:4.4, tipo:"Autos"},
-  {nombre:"Moto Shop Chile", ciudad:"Viña del Mar - Centro", telefono:"+56 9 6889 0124", resenas:3, rating:4.5, tipo:"Motos"},
-  {nombre:"Repuestos del Centro", ciudad:"Viña del Mar", telefono:"+56 9 6890 1235", resenas:2, rating:4.3, tipo:"Autos"},
-  {nombre:"Moto Repuestos Premium", ciudad:"Viña del Mar - Reñaca", telefono:"+56 9 6801 2346", resenas:1, rating:4.7, tipo:"Motos"},
-  {nombre:"Autopartes del Este", ciudad:"Viña del Mar", telefono:"+56 9 6812 3458", resenas:1, rating:4.2, tipo:"Autos"},
-  {nombre:"Moto Center Express", ciudad:"Viña del Mar - Centro", telefono:"+56 9 6823 4569", resenas:1, rating:4.6, tipo:"Motos"},
-  {nombre:"Repuestos del Oeste", ciudad:"Viña del Mar", telefono:"+56 9 6834 5680", resenas:1, rating:4.4, tipo:"Autos"},
-  {nombre:"Moto Parts Chile", ciudad:"Viña del Mar - Reñaca", telefono:"+56 9 6845 6781", resenas:1, rating:4.5, tipo:"Motos"},
-  {nombre:"Autopartes del Sur", ciudad:"Viña del Mar", telefono:"+56 9 6856 7892", resenas:1, rating:4.3, tipo:"Autos"},
-  {nombre:"Moto Repuestos del Norte", ciudad:"Viña del Mar - Centro", telefono:"+56 9 6867 8903", resenas:1, rating:4.7, tipo:"Motos"},
-  {nombre:"Repuestos Rápidos", ciudad:"Viña del Mar", telefono:"+56 9 6878 9014", resenas:1, rating:4.2, tipo:"Autos"},
-  {nombre:"Moto Shop Express", ciudad:"Viña del Mar - Reñaca", telefono:"+56 9 6889 0125", resenas:1, rating:4.6, tipo:"Motos"},
-  {nombre:"Autopartes Universales", ciudad:"Viña del Mar", telefono:"+56 9 6890 1236", resenas:1, rating:4.4, tipo:"Autos"},
-  {nombre:"Moto Repuestos del Este", ciudad:"Viña del Mar - Centro", telefono:"+56 9 6801 2347", resenas:1, rating:4.5, tipo:"Motos"},
+  if (lead.planSeleccionado) {
+    const plan = PLANES[lead.planSeleccionado];
+    msg += `\n\n---\n📋 *Propuesta personalizada para vos:*\n\n`;
+    msg += `${plan.emoji} *Plan ${plan.nombre}:* $${plan.precio.toLocaleString('es-AR')} ARS\n`;
+    if (plan.mantenimiento > 0) {
+      msg += `🔧 *Mantenimiento mensual:* $${plan.mantenimiento} USD/mes\n`;
+    } else {
+      msg += `🔧 *Mantenimiento mensual:* $0 (sin costo)\n`;
+    }
+    if (lead.skill) {
+      msg += `📊 *Skill Tablero de Control:* + $${PRECIO_SKILL} USD (pago único)\n`;
+    }
+    msg += `\n¡Quedamos a disposición para cualquier consulta!`;
+  }
 
-  // Otras ciudades (115 repuestos distribuidos)
-  // Punta Arenas (30)
-  {nombre:"Autopartes Patagónicas", ciudad:"Punta Arenas", telefono:"+56 9 5812 3456", resenas:150, rating:4.4, tipo:"Autos"},
-  {nombre:"Moto Center del Sur", ciudad:"Punta Arenas - Centro", telefono:"+56 9 5823 4567", resenas:130, rating:4.5, tipo:"Motos"},
-  {nombre:"Repuestos Magallánicos", ciudad:"Punta Arenas", telefono:"+56 9 5834 5678", resenas:110, rating:4.3, tipo:"Autos"},
-  {nombre:"Moto Parts", ciudad:"Punta Arenas", telefono:"+56 9 5845 6789", resenas:100, rating:4.6, tipo:"Motos"},
-  {nombre:"Autopartes Express", ciudad:"Punta Arenas", telefono:"+56 9 5856 7890", resenas:90, rating:4.2, tipo:"Autos"},
-  {nombre:"Moto Repuestos del Fin del Mundo", ciudad:"Punta Arenas - Centro", telefono:"+56 9 5867 8901", resenas:80, rating:4.7, tipo:"Motos"},
-  {nombre:"Repuestos del Sur", ciudad:"Punta Arenas", telefono:"+56 9 5878 9012", resenas:70, rating:4.4, tipo:"Autos"},
-  {nombre:"Moto Shop", ciudad:"Punta Arenas", telefono:"+56 9 5889 0123", resenas:60, rating:4.5, tipo:"Motos"},
-  {nombre:"Autopartes Premium", ciudad:"Punta Arenas", telefono:"+56 9 5890 1234", resenas:50, rating:4.3, tipo:"Autos"},
-  {nombre:"Moto Repuestos Express", ciudad:"Punta Arenas - Centro", telefono:"+56 9 5801 2345", resenas:40, rating:4.6, tipo:"Motos"},
-  {nombre:"Repuestos Económicos", ciudad:"Punta Arenas", telefono:"+56 9 5812 3457", resenas:30, rating:4.1, tipo:"Autos"},
-  {nombre:"Moto Center", ciudad:"Punta Arenas", telefono:"+56 9 5823 4568", resenas:20, rating:4.5, tipo:"Motos"},
-  {nombre:"Autopartes del Norte", ciudad:"Punta Arenas", telefono:"+56 9 5834 5679", resenas:15, rating:4.3, tipo:"Autos"},
-  {nombre:"Moto Parts Express", ciudad:"Punta Arenas - Centro", telefono:"+56 9 5845 6780", resenas:10, rating:4.7, tipo:"Motos"},
-  {nombre:"Repuestos Universales", ciudad:"Punta Arenas", telefono:"+56 9 5856 7891", resenas:8, rating:4.2, tipo:"Autos"},
-  {nombre:"Moto Repuestos del Sur", ciudad:"Punta Arenas", telefono:"+56 9 5867 8902", resenas:5, rating:4.6, tipo:"Motos"},
-  {nombre:"Autopartes Rápidas", ciudad:"Punta Arenas", telefono:"+56 9 5878 9013", resenas:3, rating:4.4, tipo:"Autos"},
-  {nombre:"Moto Shop Chile", ciudad:"Punta Arenas - Centro", telefono:"+56 9 5889 0124", resenas:2, rating:4.5, tipo:"Motos"},
-  {nombre:"Repuestos del Centro", ciudad:"Punta Arenas", telefono:"+56 9 5890 1235", resenas:1, rating:4.3, tipo:"Autos"},
-  {nombre:"Moto Repuestos Premium", ciudad:"Punta Arenas", telefono:"+56 9 5801 2346", resenas:1, rating:4.7, tipo:"Motos"},
-  {nombre:"Autopartes del Este", ciudad:"Punta Arenas", telefono:"+56 9 5812 3458", resenas:1, rating:4.2, tipo:"Autos"},
-  {nombre:"Moto Center Express", ciudad:"Punta Arenas - Centro", telefono:"+56 9 5823 4569", resenas:1, rating:4.6, tipo:"Motos"},
-  {nombre:"Repuestos del Oeste", ciudad:"Punta Arenas", telefono:"+56 9 5834 5680", resenas:1, rating:4.4, tipo:"Autos"},
-  {nombre:"Moto Parts Chile", ciudad:"Punta Arenas", telefono:"+56 9 5845 6781", resenas:1, rating:4.5, tipo:"Motos"},
-  {nombre:"Autopartes del Sur", ciudad:"Punta Arenas", telefono:"+56 9 5856 7892", resenas:1, rating:4.3, tipo:"Autos"},
-  {nombre:"Moto Repuestos del Norte", ciudad:"Punta Arenas - Centro", telefono:"+56 9 5867 8903", resenas:1, rating:4.7, tipo:"Motos"},
-  {nombre:"Repuestos Rápidos", ciudad:"Punta Arenas", telefono:"+56 9 5878 9014", resenas:1, rating:4.2, tipo:"Autos"},
-  {nombre:"Moto Shop Express", ciudad:"Punta Arenas", telefono:"+56 9 5889 0125", resenas:1, rating:4.6, tipo:"Motos"},
-  {nombre:"Autopartes Universales", ciudad:"Punta Arenas", telefono:"+56 9 5890 1236", resenas:1, rating:4.4, tipo:"Autos"},
-  {nombre:"Moto Repuestos del Este", ciudad:"Punta Arenas - Centro", telefono:"+56 9 5801 2347", resenas:1, rating:4.5, tipo:"Motos"},
-
-  // Puerto Montt (25)
-  {nombre:"Autopartes del Lago", ciudad:"Puerto Montt", telefono:"+56 9 4812 3456", resenas:140, rating:4.3, tipo:"Autos"},
-  {nombre:"Moto Center del Sur", ciudad:"Puerto Montt - Centro", telefono:"+56 9 4823 4567", resenas:120, rating:4.5, tipo:"Motos"},
-  {nombre:"Repuestos del Canal", ciudad:"Puerto Montt", telefono:"+56 9 4834 5678", resenas:100, rating:4.4, tipo:"Autos"},
-  {nombre:"Moto Parts", ciudad:"Puerto Montt", telefono:"+56 9 4845 6789", resenas:90, rating:4.6, tipo:"Motos"},
-  {nombre:"Autopartes Express", ciudad:"Puerto Montt", telefono:"+56 9 4856 7890", resenas:80, rating:4.2, tipo:"Autos"},
-  {nombre:"Moto Repuestos del Lago", ciudad:"Puerto Montt - Centro", telefono:"+56 9 4867 8901", resenas:70, rating:4.7, tipo:"Motos"},
-  {nombre:"Repuestos Nacionales", ciudad:"Puerto Montt", telefono:"+56 9 4878 9012", resenas:60, rating:4.3, tipo:"Autos"},
-  {nombre:"Moto Shop", ciudad:"Puerto Montt", telefono:"+56 9 4889 0123", resenas:50, rating:4.5, tipo:"Motos"},
-  {nombre:"Autopartes Premium", ciudad:"Puerto Montt", telefono:"+56 9 4890 1234", resenas:40, rating:4.4, tipo:"Autos"},
-  {nombre:"Moto Repuestos Express", ciudad:"Puerto Montt - Centro", telefono:"+56 9 4801 2345", resenas:30, rating:4.6, tipo:"Motos"},
-  {nombre:"Repuestos Económicos", ciudad:"Puerto Montt", telefono:"+56 9 4812 3457", resenas:20, rating:4.1, tipo:"Autos"},
-  {nombre:"Moto Center", ciudad:"Puerto Montt", telefono:"+56 9 4823 4568", resenas:15, rating:4.5, tipo:"Motos"},
-  {nombre:"Autopartes del Norte", ciudad:"Puerto Montt", telefono:"+56 9 4834 5679", resenas:10, rating:4.3, tipo:"Autos"},
-  {nombre:"Moto Parts Express", ciudad:"Puerto Montt - Centro", telefono:"+56 9 4845 6780", resenas:8, rating:4.7, tipo:"Motos"},
-  {nombre:"Repuestos Universales", ciudad:"Puerto Montt", telefono:"+56 9 4856 7891", resenas:5, rating:4.2, tipo:"Autos"},
-  {nombre:"Moto Repuestos del Sur", ciudad:"Puerto Montt", telefono:"+56 9 4867 8902", resenas:3, rating:4.6, tipo:"Motos"},
-  {nombre:"Autopartes Rápidas", ciudad:"Puerto Montt", telefono:"+56 9 4878 9013", resenas:2, rating:4.4, tipo:"Autos"},
-  {nombre:"Moto Shop Chile", ciudad:"Puerto Montt - Centro", telefono:"+56 9 4889 0124", resenas:1, rating:4.5, tipo:"Motos"},
-  {nombre:"Repuestos del Centro", ciudad:"Puerto Montt", telefono:"+56 9 4890 1235", resenas:1, rating:4.3, tipo:"Autos"},
-  {nombre:"Moto Repuestos Premium", ciudad:"Puerto Montt", telefono:"+56 9 4801 2346", resenas:1, rating:4.7, tipo:"Motos"},
-  {nombre:"Autopartes del Este", ciudad:"Puerto Montt", telefono:"+56 9 4812 3458", resenas:1, rating:4.2, tipo:"Autos"},
-  {nombre:"Moto Center Express", ciudad:"Puerto Montt - Centro", telefono:"+56 9 4823 4569", resenas:1, rating:4.6, tipo:"Motos"},
-  {nombre:"Repuestos del Oeste", ciudad:"Puerto Montt", telefono:"+56 9 4834 5680", resenas:1, rating:4.4, tipo:"Autos"},
-  {nombre:"Moto Parts Chile", ciudad:"Puerto Montt", telefono:"+56 9 4845 6781", resenas:1, rating:4.5, tipo:"Motos"},
-  {nombre:"Autopartes del Sur", ciudad:"Puerto Montt", telefono:"+56 9 4856 7892", resenas:1, rating:4.3, tipo:"Autos"},
-
-  // La Serena (20)
-  {nombre:"Autopartes del Norte", ciudad:"La Serena", telefono:"+56 9 3812 3456", resenas:120, rating:4.4, tipo:"Autos"},
-  {nombre:"Moto Center Serena", ciudad:"La Serena - Centro", telefono:"+56 9 3823 4567", resenas:100, rating:4.5, tipo:"Motos"},
-  {nombre:"Repuestos del Elqui", ciudad:"La Serena", telefono:"+56 9 3834 5678", resenas:90, rating:4.3, tipo:"Autos"},
-  {nombre:"Moto Parts", ciudad:"La Serena", telefono:"+56 9 3845 6789", resenas:80, rating:4.6, tipo:"Motos"},
-  {nombre:"Autopartes Express", ciudad:"La Serena", telefono:"+56 9 3856 7890", resenas:70, rating:4.2, tipo:"Autos"},
-  {nombre:"Moto Repuestos del Valle", ciudad:"La Serena - Centro", telefono:"+56 9 3867 8901", resenas:60, rating:4.7, tipo:"Motos"},
-  {nombre:"Repuestos Nacionales", ciudad:"La Serena", telefono:"+56 9 3878 9012", resenas:50, rating:4.4, tipo:"Autos"},
-  {nombre:"Moto Shop", ciudad:"La Serena", telefono:"+56 9 3889 0123", resenas:40, rating:4.5, tipo:"Motos"},
-  {nombre:"Autopartes Premium", ciudad:"La Serena", telefono:"+56 9 3890 1234", resenas:30, rating:4.3, tipo:"Autos"},
-  {nombre:"Moto Repuestos Express", ciudad:"La Serena - Centro", telefono:"+56 9 3801 2345", resenas:20, rating:4.6, tipo:"Motos"},
-  {nombre:"Repuestos Económicos", ciudad:"La Serena", telefono:"+56 9 3812 3457", resenas:15, rating:4.1, tipo:"Autos"},
-  {nombre:"Moto Center", ciudad:"La Serena", telefono:"+56 9 3823 4568", resenas:10, rating:4.5, tipo:"Motos"},
-  {nombre:"Autopartes del Sur", ciudad:"La Serena", telefono:"+56 9 3834 5679", resenas:8, rating:4.3, tipo:"Autos"},
-  {nombre:"Moto Parts Express", ciudad:"La Serena - Centro", telefono:"+56 9 3845 6780", resenas:5, rating:4.7, tipo:"Motos"},
-  {nombre:"Repuestos Universales", ciudad:"La Serena", telefono:"+56 9 3856 7891", resenas:3, rating:4.2, tipo:"Autos"},
-  {nombre:"Moto Repuestos del Norte", ciudad:"La Serena", telefono:"+56 9 3867 8902", resenas:2, rating:4.6, tipo:"Motos"},
-  {nombre:"Autopartes Rápidas", ciudad:"La Serena", telefono:"+56 9 3878 9013", resenas:1, rating:4.4, tipo:"Autos"},
-  {nombre:"Moto Shop Chile", ciudad:"La Serena - Centro", telefono:"+56 9 3889 0124", resenas:1, rating:4.5, tipo:"Motos"},
-  {nombre:"Repuestos del Centro", ciudad:"La Serena", telefono:"+56 9 3890 1235", resenas:1, rating:4.3, tipo:"Autos"},
-  {nombre:"Moto Repuestos Premium", ciudad:"La Serena", telefono:"+56 9 3801 2346", resenas:1, rating:4.7, tipo:"Motos"},
-
-  // Antofagasta (20)
-  {nombre:"Autopartes del Desierto", ciudad:"Antofagasta", telefono:"+56 9 2812 3456", resenas:110, rating:4.3, tipo:"Autos"},
-  {nombre:"Moto Center del Norte", ciudad:"Antofagasta - Centro", telefono:"+56 9 2823 4567", resenas:90, rating:4.5, tipo:"Motos"},
-  {nombre:"Repuestos del Puerto", ciudad:"Antofagasta", telefono:"+56 9 2834 5678", resenas:80, rating:4.4, tipo:"Autos"},
-  {nombre:"Moto Parts", ciudad:"Antofagasta", telefono:"+56 9 2845 6789", resenas:70, rating:4.6, tipo:"Motos"},
-  {nombre:"Autopartes Express", ciudad:"Antofagasta", telefono:"+56 9 2856 7890", resenas:60, rating:4.2, tipo:"Autos"},
-  {nombre:"Moto Repuestos del Desierto", ciudad:"Antofagasta - Centro", telefono:"+56 9 2867 8901", resenas:50, rating:4.7, tipo:"Motos"},
-  {nombre:"Repuestos Nacionales", ciudad:"Antofagasta", telefono:"+56 9 2878 9012", resenas:40, rating:4.3, tipo:"Autos"},
-  {nombre:"Moto Shop", ciudad:"Antofagasta", telefono:"+56 9 2889 0123", resenas:30, rating:4.5, tipo:"Motos"},
-  {nombre:"Autopartes Premium", ciudad:"Antofagasta", telefono:"+56 9 2890 1234", resenas:20, rating:4.4, tipo:"Autos"},
-  {nombre:"Moto Repuestos Express", ciudad:"Antofagasta - Centro", telefono:"+56 9 2801 2345", resenas:15, rating:4.6, tipo:"Motos"},
-  {nombre:"Repuestos Económicos", ciudad:"Antofagasta", telefono:"+56 9 2812 3457", resenas:10, rating:4.1, tipo:"Autos"},
-  {nombre:"Moto Center", ciudad:"Antofagasta", telefono:"+56 9 2823 4568", resenas:8, rating:4.5, tipo:"Motos"},
-  {nombre:"Autopartes del Sur", ciudad:"Antofagasta", telefono:"+56 9 2834 5679", resenas:5, rating:4.3, tipo:"Autos"},
-  {nombre:"Moto Parts Express", ciudad:"Antofagasta - Centro", telefono:"+56 9 2845 6780", resenas:3, rating:4.7, tipo:"Motos"},
-  {nombre:"Repuestos Universales", ciudad:"Antofagasta", telefono:"+56 9 2856 7891", resenas:2, rating:4.2, tipo:"Autos"},
-  {nombre:"Moto Repuestos del Norte", ciudad:"Antofagasta", telefono:"+56 9 2867 8902", resenas:1, rating:4.6, tipo:"Motos"},
-  {nombre:"Autopartes Rápidas", ciudad:"Antofagasta", telefono:"+56 9 2878 9013", resenas:1, rating:4.4, tipo:"Autos"},
-  {nombre:"Moto Shop Chile", ciudad:"Antofagasta - Centro", telefono:"+56 9 2889 0124", resenas:1, rating:4.5, tipo:"Motos"},
-  {nombre:"Repuestos del Centro", ciudad:"Antofagasta", telefono:"+56 9 2890 1235", resenas:1, rating:4.3, tipo:"Autos"},
-  {nombre:"Moto Repuestos Premium", ciudad:"Antofagasta", telefono:"+56 9 2801 2346", resenas:1, rating:4.7, tipo:"Motos"},
-
-  // Temuco (10)
-  {nombre:"Autopartes Araucanas", ciudad:"Temuco", telefono:"+56 9 1812 3456", resenas:100, rating:4.4, tipo:"Autos"},
-  {nombre:"Moto Center del Sur", ciudad:"Temuco - Centro", telefono:"+56 9 1823 4567", resenas:80, rating:4.5, tipo:"Motos"},
-  {nombre:"Repuestos del Lago", ciudad:"Temuco", telefono:"+56 9 1834 5678", resenas:70, rating:4.3, tipo:"Autos"},
-  {nombre:"Moto Parts", ciudad:"Temuco", telefono:"+56 9 1845 6789", resenas:60, rating:4.6, tipo:"Motos"},
-  {nombre:"Autopartes Express", ciudad:"Temuco", telefono:"+56 9 1856 7890", resenas:50, rating:4.2, tipo:"Autos"},
-  {nombre:"Moto Repuestos Araucanos", ciudad:"Temuco - Centro", telefono:"+56 9 1867 8901", resenas:40, rating:4.7, tipo:"Motos"},
-  {nombre:"Repuestos Nacionales", ciudad:"Temuco", telefono:"+56 9 1878 9012", resenas:30, rating:4.4, tipo:"Autos"},
-  {nombre:"Moto Shop", ciudad:"Temuco", telefono:"+56 9 1889 0123", resenas:20, rating:4.5, tipo:"Motos"},
-  {nombre:"Autopartes Premium", ciudad:"Temuco", telefono:"+56 9 1890 1234", resenas:10, rating:4.3, tipo:"Autos"},
-  {nombre:"Moto Repuestos Express", ciudad:"Temuco - Centro", telefono:"+56 9 1801 2345", resenas:5, rating:4.6, tipo:"Motos"},
-
-  // Concepción (10)
-  {nombre:"Autopartes del Bio-Bío", ciudad:"Concepción", telefono:"+56 9 0812 3456", resenas:90, rating:4.3, tipo:"Autos"},
-  {nombre:"Moto Center del Sur", ciudad:"Concepción - Centro", telefono:"+56 9 0823 4567", resenas:70, rating:4.5, tipo:"Motos"},
-  {nombre:"Repuestos del Sur", ciudad:"Concepción", telefono:"+56 9 0834 5678", resenas:60, rating:4.4, tipo:"Autos"},
-  {nombre:"Moto Parts", ciudad:"Concepción", telefono:"+56 9 0845 6789", resenas:50, rating:4.6, tipo:"Motos"},
-  {nombre:"Autopartes Express", ciudad:"Concepción", telefono:"+56 9 0856 7890", resenas:40, rating:4.2, tipo:"Autos"},
-  {nombre:"Moto Repuestos del Bio-Bío", ciudad:"Concepción - Centro", telefono:"+56 9 0867 8901", resenas:30, rating:4.7, tipo:"Motos"},
-  {nombre:"Repuestos Nacionales", ciudad:"Concepción", telefono:"+56 9 0878 9012", resenas:20, rating:4.3, tipo:"Autos"},
-  {nombre:"Moto Shop", ciudad:"Concepción", telefono:"+56 9 0889 0123", resenas:15, rating:4.5, tipo:"Motos"},
-  {nombre:"Autopartes Premium", ciudad:"Concepción", telefono:"+56 9 0890 1234", resenas:10, rating:4.4, tipo:"Autos"},
-  {nombre:"Moto Repuestos Express", ciudad:"Concepción - Centro", telefono:"+56 9 0801 2345", resenas:5, rating:4.6, tipo:"Motos"}
-];
-
-// Add potential flag
-restaurantes.forEach(r => r.potential = false);
-repuestos.forEach(r => r.potential = false);
-
-const PRECIO_BASE = 290;
-const PRECIO_SKILL = 30;
-const PRECIO_MANTENIMIENTO = 40;
-const PRECIO_TOTAL = PRECIO_BASE + PRECIO_SKILL + PRECIO_MANTENIMIENTO; // $360
-
-// ==================== MENSAJES DE WHATSAPP ====================
-const msgRepuestos = encodeURIComponent(` *¡Hola! Buenas tardes!!.*
-
-Somos *NEXO-ART*. Ayudamos a casas de repuestos de Motos y Automotrices a vender más y sistematizar su atención al cliente con su propia *Tienda Web con venta directa a WhatsApp*. Integramos todas tus redes sociales.
-
----
-🚗 *¿Qué vas a lograr con tu tienda online?*
-* *Catálogo 24/7:* Tus clientes buscan el repuesto en tu web, consultan stock/precios y envían el pedido listo a tu WhatsApp en un clic.
-* *Integración con Meta Business:* El sistema envía automáticamente los datos del pedido y del cliente a tu WhatsApp para que solo tengas que cerrar la venta.
-* *Presencia local impecable:* Optimizamos tu perfil de Google Maps para que los clientes de tu zona te encuentren primeros a vos y no a tu competencia.
-
----
-💡 *Tu tienda web no es un gasto, es un vendedor automático:*
-* *Chau mensajes repetitivos:* Ahorrá el tiempo de responder constantemente "¿Tenés stock?" o "¿Cuánto cuesta?".
-* *Aumentá tus ganancias:* Si tu equipo pierde 1 hora al día respondiendo consultas básicas, son más de 25 horas al mes perdidas. Convertí ese tiempo en despachos y ventas reales.
-* *Atención profesional:* Brindale a tu cliente la rapidez que espera al comprar repuestos para su vehículo.
-
-Te devuelvo lo más valioso: *tiempo para hacer crecer tu negocio.*
-
----
-📍 *Mirá un ejemplo de cómo se vería tu catálogo online acá:* https://fc-racing.vercel.app/`);
-
-const msgRestaurantes = encodeURIComponent(`Hola buenas noches!! Somos NEXO-ART y ayudamos a negocios gastronómicos a digitalizar el servicio y atencion, creamos páginas web app para rotiserías, pizzerías y restaurantes, totalmente resposivas para que se vean en cualquier dispositivo.
-
-🍕 ¿Qué logramos con tu web?
-Los clientes pueden hacer pedidos, reservas o consultas online, o simplemente desde un código QR en la mesa pedir al mostrador sin necesidad de que lo atienda una persona.
-La información llega automáticamente al WhatsApp del local, para responder más rápido y sin perder tiempo.
-Además, optimizamos tu presencia en Google Maps y Google Business Profile para que más personas te encuentren y confíen en tu negocio.
-
-💡 Un sitio web no es un gasto, es una inversión:
-Te ayuda a ahorrar tiempo, ordenar la atención y aumentar tus ventas.
-Menos mensajes repetitivos, más pedidos y más tiempo para hacer crecer tu negocio.
-
-Mirá un ejemplo de cómo se vería tu local: https://nexoar-art.github.io/TONGOY/`);
+  return encodeURIComponent(msg);
+}
 
 // ==================== INIT ====================
 function init() {
-  populateFilters();
-  renderAll();
-  document.getElementById('filterNombre').addEventListener('input', renderAll);
-  document.getElementById('filterCiudad').addEventListener('change', renderAll);
-  document.getElementById('filterTipo').addEventListener('change', renderAll);
-  document.getElementById('filterCalificacion').addEventListener('change', renderAll);
-  document.getElementById('filterResenas').addEventListener('change', renderAll);
-  document.getElementById('filterPotencial').addEventListener('change', renderAll);
-}
-
-function populateFilters() {
-  const ciudades = [...new Set([...restaurantes.map(r=>r.ciudad), ...repuestos.map(r=>r.ciudad)])].sort();
-  const tipos = [...new Set(repuestos.map(r=>r.tipo))].sort();
-  
-  const selCiudad = document.getElementById('filterCiudad');
-  ciudades.forEach(c => {
-    const opt = document.createElement('option');
-    opt.value = c; opt.textContent = c;
-    selCiudad.appendChild(opt);
-  });
-  
-  const selTipo = document.getElementById('filterTipo');
-  selTipo.innerHTML = '<option value="">Todos</option><option value="Restaurante">🍽️ Restaurantes</option>';
-  tipos.forEach(t => {
-    const opt = document.createElement('option');
-    opt.value = t; opt.textContent = '🔧 ' + t;
-    selTipo.appendChild(opt);
-  });
-}
-
-function resetFilters() {
-  document.getElementById('filterNombre').value = '';
-  document.getElementById('filterCiudad').value = '';
-  document.getElementById('filterTipo').value = '';
-  document.getElementById('filterCalificacion').value = '';
-  document.getElementById('filterResenas').value = '';
-  document.getElementById('filterPotencial').value = '';
   renderAll();
 }
 
-// ==================== FILTER LOGIC ====================
-function applyFilters(data, tipo) {
-  const nombre = document.getElementById('filterNombre').value.toLowerCase();
-  const ciudad = document.getElementById('filterCiudad').value;
-  const tipoFilter = document.getElementById('filterTipo').value;
-  const calMin = parseFloat(document.getElementById('filterCalificacion').value) || 0;
-  const resMin = parseInt(document.getElementById('filterResenas').value) || 0;
-  const potFilter = document.getElementById('filterPotencial').value;
-  
-  return data.filter(item => {
-    if (nombre && !item.nombre.toLowerCase().includes(nombre)) return false;
-    if (ciudad && item.ciudad !== ciudad) return false;
-    if (tipoFilter) {
-      if (tipo === 'restaurante' && tipoFilter !== 'Restaurante') return false;
-      if (tipo === 'repuesto' && item.tipo !== tipoFilter) return false;
-    }
-    if (item.rating < calMin) return false;
-    if (item.resenas < resMin) return false;
-    if (potFilter === 'si' && !item.potential) return false;
-    if (potFilter === 'no' && item.potential) return false;
-    return true;
-  });
-}
-
-// ==================== RENDER ====================
 function renderAll() {
-  const restFilt = applyFilters(restaurantes, 'restaurante');
-  const repFilt = applyFilters(repuestos, 'repuesto');
-  
-  renderTable('tbodyRestaurantes', restFilt, 'restaurante');
-  renderTable('tbodyRepuestos', repFilt, 'repuesto');
-  
-  document.getElementById('countRestaurantes').textContent = restFilt.length + ' negocios';
-  document.getElementById('countRepuestos').textContent = repFilt.length + ' negocios';
-  
-  // KPIs
-  const totalLeads = restaurantes.length + repuestos.length;
-  const potenciales = restaurantes.filter(r=>r.potential).length + repuestos.filter(r=>r.potential).length;
-  const ingresos = potenciales * PRECIO_TOTAL;
-  const filtrados = restFilt.length + repFilt.length;
+  renderTable();
+  updateKPIs();
+}
+
+function updateKPIs() {
+  const totalLeads = leads.length;
+  const potenciales = leads.filter(l => l.potential).length;
+  const tc = parseFloat(document.getElementById('exchangeRate').value) || 0;
+
+  let ingresos = 0, mantenimiento = 0, ingresosSkills = 0;
+  leads.forEach(l => {
+    if (l.potential && l.planSeleccionado) {
+      ingresos += PLANES[l.planSeleccionado].precio;
+      mantenimiento += PLANES[l.planSeleccionado].mantenimiento;
+    }
+    if (l.potential && l.skill) ingresosSkills += PRECIO_SKILL;
+  });
+
   const conversion = totalLeads > 0 ? ((potenciales/totalLeads)*100).toFixed(1) : 0;
-  
+
   document.getElementById('kpiTotalLeads').textContent = totalLeads;
   document.getElementById('kpiPotenciales').textContent = potenciales;
-  document.getElementById('kpiIngresos').textContent = '$' + ingresos.toLocaleString('en-US');
-  document.getElementById('kpiFiltrados').textContent = filtrados;
+  document.getElementById('kpiIngresos').textContent = '$' + ingresos.toLocaleString('es-AR');
   document.getElementById('kpiConversion').textContent = conversion + '%';
-  
-  renderMatrix();
+  document.getElementById('kpiMantenimiento').textContent = '$' + mantenimiento + ' USD';
+  document.getElementById('kpiSkills').textContent = '$' + ingresosSkills + ' USD';
+  document.getElementById('countLeads').textContent = totalLeads + ' negocios';
+
+  const totalUSD = ingresosSkills + mantenimiento;
+  const totalUnicoARS = ingresos + (ingresosSkills * tc);
+  const totalMensualARS = mantenimiento * tc;
+  const totalPrimerMesARS = totalUnicoARS + totalMensualARS;
+
+  document.getElementById('totalUSD').textContent = '$' + totalUSD.toLocaleString('en-US') + ' USD';
+  document.getElementById('totalUnicoARS').textContent = '$' + Math.round(totalUnicoARS).toLocaleString('es-AR');
+  document.getElementById('totalMensualARS').textContent = '$' + Math.round(totalMensualARS).toLocaleString('es-AR');
+  document.getElementById('totalPrimerMesARS').textContent = '$' + Math.round(totalPrimerMesARS).toLocaleString('es-AR');
 }
 
-function renderTable(tbodyId, data, tipo) {
-  const tbody = document.getElementById(tbodyId);
+function renderTable() {
+  const tbody = document.getElementById('tbodyLeads');
   tbody.innerHTML = '';
-  
-  data.forEach((item, idx) => {
+
+  leads.forEach((item, idx) => {
     const tr = document.createElement('tr');
     if (item.potential) tr.classList.add('potential');
-    
-    const globalIdx = tipo === 'restaurante' 
-      ? restaurantes.indexOf(item) 
-      : repuestos.indexOf(item);
-    
-    const ratingClass = item.rating >= 4.5 ? 'rating-high' : item.rating >= 4.0 ? 'rating-mid' : 'rating-low';
-    const ratingText = item.rating > 0 ? item.rating.toFixed(1) : 'S/D';
-    
-    let waCell = '';
-    if (item.telefono) {
-      const cleanPhone = item.telefono.replace(/[^0-9]/g, '');
-      const msg = tipo === 'restaurante' ? msgRestaurantes : msgRepuestos;
-      
-      waCell = `<a href="https://wa.me/${cleanPhone}?text=${msg}" target="_blank" class="wa-link">
-        <svg class="wa-icon" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        Enviar
-      </a>`;
-    } else {
-      waCell = '<span style="color:#95a5a6;font-size:11px;">No disponible</span>';
+
+    let cityClass = 'city-lujan'; // Reutilizamos estilo azul
+    let cityIcon = '🔧';
+
+    const waMsg = generarMensajeWA(idx);
+    const waLink = `<a href="https://wa.me/${item.telefono}?text=${waMsg}" target="_blank" class="wa-link">
+      <svg class="wa-icon" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Enviar
+    </a>`;
+
+    let priceDisplay = '<span class="price-display">Sin plan</span>';
+    if (item.planSeleccionado) {
+      const plan = PLANES[item.planSeleccionado];
+      const mantText = plan.mantenimiento > 0 ? ` + $${plan.mantenimiento}/mes` : ' + $0/mes';
+      const skillText = item.skill ? ` + Skill $${PRECIO_SKILL}` : '';
+      const hasSkillClass = item.skill ? ' has-skill' : '';
+      priceDisplay = `<span class="price-display ${item.planSeleccionado}${hasSkillClass}">$${plan.precio.toLocaleString('es-AR')}${mantText}${skillText}</span>`;
+    } else if (item.skill) {
+      priceDisplay = `<span class="price-display has-skill" style="background:#f0e6ff;color:#9D4EDD;">Solo Skill $${PRECIO_SKILL}</span>`;
     }
-    
-    let tipoCell = '';
-    if (tipo === 'repuesto') {
-      tipoCell = `<td><span style="background:#e0f4ff;color:#0077B6;padding:3px 8px;border-radius:10px;font-size:11px;font-weight:600;">${item.tipo}</span></td>`;
-    }
-    
+
     tr.innerHTML = `
-      <td class="checkbox-cell"><input type="checkbox" ${item.potential?'checked':''} onchange="togglePotential('${tipo}', ${globalIdx})"></td>
-      <td><strong>${item.nombre}</strong></td>
-      <td>${item.ciudad}</td>
-      ${tipoCell}
-      <td>${waCell}</td>
-      <td><span style="font-weight:600;">${item.resenas.toLocaleString()}</span></td>
-      <td><span class="rating-badge ${ratingClass}">⭐ ${ratingText}</span></td>
-      <td><button class="potential-btn ${item.potential?'active':''}" onclick="togglePotential('${tipo}', ${globalIdx})">${item.potential?'✓ Potencial':'Marcar'}</button></td>
+      <td class="checkbox-cell"><input type="checkbox" ${item.potential?'checked':''} onchange="togglePotential(${idx})"></td>
+      <td><span class="city-badge ${cityClass}">${cityIcon} ${item.ciudad}</span></td>
+      <td>${waLink}</td>
+      <td><button class="plan-btn basic ${item.planSeleccionado==='basico'?'active':''}" onclick="selectPlan(${idx},'basico')">🥉 $98k</button></td>
+      <td><button class="plan-btn advanced ${item.planSeleccionado==='avanzado'?'active':''}" onclick="selectPlan(${idx},'avanzado')">⭐ $160k</button></td>
+      <td><button class="plan-btn premium ${item.planSeleccionado==='premium'?'active':''}" onclick="selectPlan(${idx},'premium')">🥇 $430k</button></td>
+      <td><button class="skill-btn ${item.skill?'active':''}" onclick="toggleSkill(${idx})">📊 ${item.skill?'✓ +$40':'Agregar'}</button></td>
+      <td>${priceDisplay}</td>
+      <td><button class="potential-btn ${item.potential?'active':''}" onclick="togglePotential(${idx})">${item.potential?'✓ Potencial':'Marcar'}</button></td>
     `;
     tbody.appendChild(tr);
   });
 }
 
-function togglePotential(tipo, idx) {
-  if (tipo === 'restaurante') restaurantes[idx].potential = !restaurantes[idx].potential;
-  else repuestos[idx].potential = !repuestos[idx].potential;
+function selectPlan(idx, plan) {
+  if (leads[idx].planSeleccionado === plan) {
+    leads[idx].planSeleccionado = null;
+  } else {
+    leads[idx].planSeleccionado = plan;
+  }
   renderAll();
 }
 
-// ==================== TABS ====================
-function switchTab(tabName, el) {
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  el.classList.add('active');
-  document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
-  document.getElementById('tab-' + tabName).classList.remove('hidden');
+function toggleSkill(idx) {
+  leads[idx].skill = !leads[idx].skill;
+  renderAll();
 }
 
-// ==================== MATRIX ANALYSIS ====================
-function renderMatrix() {
-  const allData = [
-    ...restaurantes.map(r => ({...r, tipoNeg: 'Restaurante'})),
-    ...repuestos.map(r => ({...r, tipoNeg: r.tipo}))
-  ];
-  
-  const ciudades = [...new Set(allData.map(d => d.ciudad))].sort();
-  const tipos = ['Restaurante', 'Motos', 'Autos'];
-  
-  let html = '<thead><tr><th>Ciudad</th>';
-  tipos.forEach(t => html += `<th>${t}</th>`);
-  html += '<th>Total</th></tr></thead><tbody>';
-  
-  ciudades.forEach(c => {
-    html += `<tr><td>${c}</td>`;
-    let total = 0;
-    tipos.forEach(t => {
-      const count = allData.filter(d => d.ciudad === c && d.tipoNeg === t).length;
-      total += count;
-      const cls = count >= 10 ? 'cell-hot' : count >= 5 ? 'cell-warm' : count > 0 ? 'cell-cold' : '';
-      html += `<td class="${cls}">${count || '-'}</td>`;
-    });
-    html += `<td><strong>${total}</strong></td></tr>`;
-  });
-  html += '</tbody>';
-  document.getElementById('matrixCiudadTipo').innerHTML = html;
-  
-  // Matrix Ciudad x Rating
-  const ratingRanges = [
-    {label: '4.5+ (Excelente)', min: 4.5},
-    {label: '4.0-4.4 (Muy Bueno)', min: 4.0, max: 4.5},
-    {label: '3.5-3.9 (Bueno)', min: 3.5, max: 4.0},
-    {label: '<3.5 (Mejorable)', min: 0, max: 3.5}
-  ];
-  
-  html = '<thead><tr><th>Ciudad</th>';
-  ratingRanges.forEach(r => html += `<th>${r.label}</th>`);
-  html += '</tr></thead><tbody>';
-  
-  ciudades.forEach(c => {
-    html += `<tr><td>${c}</td>`;
-    ratingRanges.forEach(r => {
-      const count = allData.filter(d => {
-        if (d.ciudad !== c) return false;
-        if (r.max) return d.rating >= r.min && d.rating < r.max;
-        return d.rating >= r.min;
-      }).length;
-      const cls = count >= 8 ? 'cell-hot' : count >= 3 ? 'cell-warm' : count > 0 ? 'cell-cold' : '';
-      html += `<td class="${cls}">${count || '-'}</td>`;
-    });
-    html += '</tr>';
-  });
-  html += '</tbody>';
-  document.getElementById('matrixCiudadRating').innerHTML = html;
-  
-  // Matrix Ciudad x Reseñas
-  const resRanges = [
-    {label: '1000+', min: 1000},
-    {label: '500-999', min: 500, max: 1000},
-    {label: '100-499', min: 100, max: 500},
-    {label: '<100', min: 0, max: 100}
-  ];
-  
-  html = '<thead><tr><th>Ciudad</th>';
-  resRanges.forEach(r => html += `<th>${r.label}</th>`);
-  html += '</tr></thead><tbody>';
-  
-  ciudades.forEach(c => {
-    html += `<tr><td>${c}</td>`;
-    resRanges.forEach(r => {
-      const count = allData.filter(d => {
-        if (d.ciudad !== c) return false;
-        if (r.max) return d.resenas >= r.min && d.resenas < r.max;
-        return d.resenas >= r.min;
-      }).length;
-      const cls = count >= 6 ? 'cell-hot' : count >= 3 ? 'cell-warm' : count > 0 ? 'cell-cold' : '';
-      html += `<td class="${cls}">${count || '-'}</td>`;
-    });
-    html += '</tr>';
-  });
-  html += '</tbody>';
-  document.getElementById('matrixCiudadResenas').innerHTML = html;
-  
-  // Top Ciudades
-  const ciudadCounts = {};
-  allData.forEach(d => ciudadCounts[d.ciudad] = (ciudadCounts[d.ciudad]||0)+1);
-  const sorted = Object.entries(ciudadCounts).sort((a,b)=>b[1]-a[1]).slice(0,10);
-  const maxCount = sorted[0]?.[1] || 1;
-  
-  let barHtml = '';
-  sorted.forEach(([c, n]) => {
-    const pct = (n/maxCount)*100;
-    barHtml += `<div class="bar-row">
-      <div class="bar-label">${c}</div>
-      <div class="bar-track"><div class="bar-fill" style="width:${pct}%">${n}</div></div>
-    </div>`;
-  });
-  document.getElementById('topCiudades').innerHTML = barHtml;
-  
-  // Ingresos por Ciudad (basado en potenciales)
-  const ingresosCiudad = {};
-  [...restaurantes, ...repuestos].forEach(d => {
-    if (d.potential) {
-      ingresosCiudad[d.ciudad] = (ingresosCiudad[d.ciudad]||0) + PRECIO_TOTAL;
-    }
-  });
-  const sortedIng = Object.entries(ingresosCiudad).sort((a,b)=>b[1]-a[1]);
-  const maxIng = sortedIng[0]?.[1] || 1;
-  
-  if (sortedIng.length === 0) {
-    document.getElementById('ingresosCiudad').innerHTML = '<div style="text-align:center;color:#95a5a6;padding:20px;font-size:13px;"> Marca negocios como "Potencial" para ver ingresos por ciudad</div>';
-  } else {
-    let barHtml2 = '';
-    sortedIng.forEach(([c, n]) => {
-      const pct = (n/maxIng)*100;
-      barHtml2 += `<div class="bar-row">
-        <div class="bar-label">${c}</div>
-        <div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:linear-gradient(90deg,#06D6A0,#FFD93D)">$${n}</div></div>
-      </div>`;
-    });
-    document.getElementById('ingresosCiudad').innerHTML = barHtml2;
-  }
-  
-  // Distribución por tipo
-  const tipoCounts = {};
-  repuestos.forEach(r => tipoCounts[r.tipo] = (tipoCounts[r.tipo]||0)+1);
-  tipoCounts['Restaurante'] = restaurantes.length;
-  const sortedTipo = Object.entries(tipoCounts).sort((a,b)=>b[1]-a[1]);
-  const maxTipo = sortedTipo[0]?.[1] || 1;
-  
-  let tipoHtml = '';
-  sortedTipo.forEach(([t, n]) => {
-    const pct = (n/maxTipo)*100;
-    tipoHtml += `<div class="bar-row">
-      <div class="bar-label">${t}</div>
-      <div class="bar-track"><div class="bar-fill" style="width:${pct}%">${n}</div></div>
-    </div>`;
-  });
-  document.getElementById('distTipo').innerHTML = tipoHtml;
+function togglePotential(idx) {
+  leads[idx].potential = !leads[idx].potential;
+  renderAll();
 }
 
 init();
