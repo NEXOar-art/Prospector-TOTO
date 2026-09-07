@@ -727,6 +727,8 @@ const PRECIO_SKILL = 40;
 // ==================== GENERAR MENSAJE WHATSAPP DINÁMICO ====================
 function generarMensajeWA(idx) {
   const lead = leads[idx];
+  const tc = parseFloat(document.getElementById('exchangeRate').value) || 1500;
+  
   let msg = `👋 ¡Hola! Buenos Dias!!. Somos NEXO-ART. Ayudamos a casas de repuestos de Motos y Automotrices a vender más y sistematizar su atención al cliente con su propia Tienda Web con venta directa a WhatsApp. Integramos todas tus redes sociales.\n\n🚀 ¿Qué vas a lograr con tu tienda online?\n* Catálogo 24/7: Tus clientes buscan el repuesto en tu web, consultan stock/precios y envían el pedido listo a tu WhatsApp en un clic.\n* Integración con Meta Business: El sistema envía automáticamente los datos del pedido y del cliente a tu WhatsApp para que solo tengas que cerrar la venta.\n* Presencia local impecable: Optimizamos tu perfil de Google Maps para que los clientes de tu zona te encuentren primeros a vos y no a tu competencia.\n\n💡 Tu tienda web no es un gasto, es un vendedor automático:\n* Chau mensajes repetitivos: Ahorrá el tiempo de responder constantemente "¿Tenés stock?" o "¿Cuánto cuesta?".\n* Aumentá tus ganancias: Si tu equipo pierde 1 hora al día respondiendo consultas básicas, son más de 25 horas al mes perdidas. Convertí ese tiempo en despachos y ventas reales.\n* Atención profesional: Brindale a tu cliente la rapidez que espera al comprar repuestos para su vehículo. Te devuelvo lo más valioso: tiempo para hacer crecer tu negocio.\n\n🔗 Mirá un ejemplo de cómo se vería tu catálogo online acá: https://fc-racing.vercel.app/`;
 
   if (lead.planSeleccionado) {
@@ -734,12 +736,14 @@ function generarMensajeWA(idx) {
     msg += `\n\n---\n📋 *Propuesta personalizada para vos:*\n\n`;
     msg += `${plan.emoji} *Plan ${plan.nombre}:* $${plan.precio.toLocaleString('es-AR')} ARS\n`;
     if (plan.mantenimiento > 0) {
-      msg += `🔧 *Mantenimiento mensual:* $${plan.mantenimiento} USD/mes\n`;
+      const mantArs = Math.round(plan.mantenimiento * tc).toLocaleString('es-AR');
+      msg += `🔧 *Mantenimiento mensual:* $${plan.mantenimiento} USD (aprox. $${mantArs} ARS)/mes\n`;
     } else {
       msg += `🔧 *Mantenimiento mensual:* $0 (sin costo)\n`;
     }
     if (lead.skill) {
-      msg += `📊 *Skill Tablero de Control:* + $${PRECIO_SKILL} USD (pago único)\n`;
+      const skillArs = Math.round(PRECIO_SKILL * tc).toLocaleString('es-AR');
+      msg += `📊 *Skill Tablero de Control:* + $${PRECIO_SKILL} USD (aprox. $${skillArs} ARS) (pago único)\n`;
     }
     msg += `\n¡Quedamos a disposición para cualquier consulta!`;
   }
@@ -800,7 +804,7 @@ function renderTable() {
     const tr = document.createElement('tr');
     if (item.potential) tr.classList.add('potential');
 
-    let cityClass = 'city-lujan'; // Reutilizamos estilo azul
+    let cityClass = 'city-lujan';
     let cityIcon = '🔧';
 
     const waMsg = generarMensajeWA(idx);
