@@ -306,6 +306,37 @@
     font-weight: 600;
     white-space: nowrap;
   }
+  
+  .float-report-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 24px;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 700;
+    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    white-space: nowrap;
+    border: 2px solid rgba(255,255,255,0.3);
+    animation: float-pulse 3s ease-in-out infinite;
+  }
+  .float-report-btn:hover {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(37, 211, 102, 0.6);
+    animation: none;
+  }
+  .float-report-btn:active {
+    transform: translateY(-1px) scale(0.98);
+  }
+  @keyframes float-pulse {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+  }
+
   .table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
   table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 750px; }
   thead {
@@ -518,6 +549,7 @@
     .potential-btn { padding: 4px 8px; font-size: 9px; }
     .price-display { font-size: 10px; padding: 3px 8px; min-width: 70px; }
     .city-badge { font-size: 10px; padding: 3px 8px; }
+    .float-report-btn { font-size: 11px; padding: 7px 12px; }
   }
   @media (max-width: 360px) {
     .kpi-grid { grid-template-columns: 1fr 1fr; }
@@ -673,7 +705,12 @@
 <div class="table-container">
   <div class="table-header">
     <h3>🔧 Leads de Casas de Repuestos - San Miguel</h3>
-    <span class="table-count" id="countLeads">0 negocios</span>
+    <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+      <span class="table-count" id="countLeads">0 negocios</span>
+      <a href="https://wa.me/5493489686939?text=Hola%20equipo,%20les%20comparto%20el%20reporte%20de%20Leads%20de%20Casas%20de%20Repuestos%20San%20Miguel" target="_blank" class="float-report-btn">
+        📲 REPORTAR Y PASAR AL EQUIPO
+      </a>
+    </div>
   </div>
   <div class="scroll-hint">👉 Deslizá horizontalmente para ver todas las columnas</div>
   <div class="table-wrapper">
@@ -713,7 +750,19 @@ const leads = [
   {ciudad:"San Miguel", telefono:"+5491126584874", planSeleccionado:null, skill:false, potential:false},
   {ciudad:"San Miguel", telefono:"+5491146678326", planSeleccionado:null, skill:false, potential:false},
   {ciudad:"San Miguel", telefono:"+5491164100004", planSeleccionado:null, skill:false, potential:false},
-  {ciudad:"San Miguel", telefono:"+5491170076213", planSeleccionado:null, skill:false, potential:false}
+  {ciudad:"San Miguel", telefono:"+5491170076213", planSeleccionado:null, skill:false, potential:false},
+  {ciudad:"San Miguel", telefono:"+5491165887017", planSeleccionado:null, skill:false, potential:false},
+  {ciudad:"San Miguel", telefono:"+5491126550285", planSeleccionado:null, skill:false, potential:false},
+  {ciudad:"San Miguel", telefono:"+5491167690736", planSeleccionado:null, skill:false, potential:false},
+  {ciudad:"San Miguel", telefono:"+5491123732164", planSeleccionado:null, skill:false, potential:false},
+  {ciudad:"San Miguel", telefono:"+5491133370006", planSeleccionado:null, skill:false, potential:false},
+  {ciudad:"San Miguel", telefono:"+5491137037218", planSeleccionado:null, skill:false, potential:false},
+  {ciudad:"San Miguel", telefono:"+5491154996310", planSeleccionado:null, skill:false, potential:false},
+  {ciudad:"San Miguel", telefono:"+5491144821102", planSeleccionado:null, skill:false, potential:false},
+  {ciudad:"San Miguel", telefono:"+5491146515036", planSeleccionado:null, skill:false, potential:false},
+  {ciudad:"San Miguel", telefono:"+5491171751856", planSeleccionado:null, skill:false, potential:false},
+  {ciudad:"San Miguel", telefono:"+5491144845293", planSeleccionado:null, skill:false, potential:false},
+  {ciudad:"San Miguel", telefono:"+5491137909043", planSeleccionado:null, skill:false, potential:false}
 ];
 
 // ==================== PRECIOS ====================
