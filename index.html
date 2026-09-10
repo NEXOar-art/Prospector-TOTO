@@ -843,8 +843,8 @@ function hideTooltip(element) {
 }
 
 function reportarEquipo() {
-  alert("Hola Tio hay avance con un cliente!");
-  window.open('https://wa.me/5493489686939?text=Hola%2C%20adjunto%20el%20reporte%20de%20Leads%20para%20pasar%20al%20equipo.', '_blank');
+  const mensaje = "Hola Tio hay avance con un cliente!";
+  window.open(`https://wa.me/5493489686939?text=${encodeURIComponent(mensaje)}`, '_blank');
 }
 
 // ==================== GENERAR MENSAJE WHATSAPP DINÁMICO ====================
